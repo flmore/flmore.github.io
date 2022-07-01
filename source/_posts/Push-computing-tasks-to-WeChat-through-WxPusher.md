@@ -23,7 +23,9 @@ description: 之前使用发邮件的方式来推送计算任务。但这种方�
 
 配置完成后，我们需要获取的必要信息为：**appToken**、**UID**。
 
-# Python 脚本调用 WxPusher
+# ~~Python 脚本调用 WxPusher~~
+
+**实际使用过程中该脚本还存在问题，对于某些任务完成后并不会推送，有待进一步修正**
 
 python 脚本如下，将以下内容写入 `wxpusher_notification.py` ，在对应位置替换你自己的 `appToken` 和 `UID`
 
