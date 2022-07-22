@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"flmore.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本文记录了vasp错误输出 EDDRMM: call to ZHEGV failed 的错误原因及解决方案">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VASP 错误 WARNING in EDDRMM: call to ZHEGV failed, returncode &#x3D; 6 3 9">
+<meta property="og:url" content="https://flmore.github.io/2022/07/01/WARNING-in-EDDRMM-call-to-ZHEGV-failed-returncode-6-3-9/index.html">
+<meta property="og:site_name" content="flmore&#39;s blog">
+<meta property="og:description" content="本文记录了vasp错误输出 EDDRMM: call to ZHEGV failed 的错误原因及解决方案">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-07-01T06:06:43.000Z">
+<meta property="article:modified_time" content="2022-07-01T06:59:38.971Z">
+<meta property="article:author" content="flmore">
+<meta property="article:tag" content="vasp">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://flmore.github.io/2022/07/01/WARNING-in-EDDRMM-call-to-ZHEGV-failed-returncode-6-3-9/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>VASP 错误 WARNING in EDDRMM: call to ZHEGV failed, returncode = 6 3 9 | flmore's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">flmore's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-gallery">
+
+    <a href="/gallery/" rel="section"><i class="fas fa-camera-retro fa-fw"></i>gallery</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://flmore.github.io/2022/07/01/WARNING-in-EDDRMM-call-to-ZHEGV-failed-returncode-6-3-9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://flmore-github-io-1306099430.cos.ap-beijing.myqcloud.com/markdown-img/avtar_720x720.jpeg">
+      <meta itemprop="name" content="flmore">
+      <meta itemprop="description" content="记录生活，记录成长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="flmore's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          VASP 错误 WARNING in EDDRMM: call to ZHEGV failed, returncode = 6 3 9
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-07-01 14:06:43 / Modified: 14:59:38" itemprop="dateCreated datePublished" datetime="2022-07-01T14:06:43+08:00">2022-07-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ComputMat/" itemprop="url" rel="index"><span itemprop="name">ComputMat</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <div class="post-description">本文记录了vasp错误输出 EDDRMM: call to ZHEGV failed 的错误原因及解决方案</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>使用 <code>vasp</code> 对完全脱锂的镍锰酸锂做结构优化时报错，报错信息为 <code>WARNING in EDDRMM: call to ZHEGV failed, returncode = 6 3 9</code></p>
+<p>INCAR 文件如下</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">Global Parameters</span><br><span class="line">ISTART =  1            (Read existing wavefunction; if there)</span><br><span class="line">ENCUT  =  520       (Cut-off energy for plane wave basis set, in eV)</span><br><span class="line">PREC   =  Normal       (Precision level)</span><br><span class="line">LWAVE  = .FALSE.        (Write WAVECAR or not)</span><br><span class="line">LCHARG = .FALSE.        (Write CHGCAR or not)</span><br><span class="line">ADDGRID= .TRUE.        (Increase grid; helps GGA convergence)</span><br><span class="line">LASPH = .TRUE.</span><br><span class="line">NPAR = 4</span><br><span class="line">ALGO    = FAST</span><br><span class="line">ISPIN    = 2</span><br><span class="line"></span><br><span class="line"># d orbital</span><br><span class="line">LMAXMIX  = 4</span><br><span class="line"></span><br><span class="line"># mag system</span><br><span class="line">AMIX = 0.2</span><br><span class="line">BMIX = 0.0001</span><br><span class="line">AMIX MAG = 0.8</span><br><span class="line">BMIX MAG = 0.0001</span><br><span class="line">LREAL= Auto</span><br><span class="line"></span><br><span class="line">Electronic Relaxation</span><br><span class="line">ISMEAR =  0            (Gaussian smearing; metals:1)</span><br><span class="line">SIGMA  =  0.05         (Smearing value in eV; metals:0.2)</span><br><span class="line">NELM   =  90           (Max electronic SCF steps)</span><br><span class="line">NELMIN =  6            (Min electronic SCF steps)</span><br><span class="line">EDIFF  =  1E-05        (SCF energy convergence; in eV)</span><br><span class="line"># GGA  =  PS           (PBEsol exchange-correlation)</span><br><span class="line"></span><br><span class="line">Ionic Relaxation</span><br><span class="line">NSW    =  500          (Max ionic steps)</span><br><span class="line">IBRION =  2            (Algorithm: 0-MD; 1-Quasi-New; 2-CG)</span><br><span class="line">ISIF   =  3            (Stress/relaxation: 2-Ions, 3-Shape/Ions/V, 4-Shape/Ions)</span><br><span class="line">EDIFFG = -1E-02        (Ionic convergence; eV/AA)</span><br><span class="line"># ISYM =  2            (Symmetry: 0=none; 2=GGA; 3=hybrids)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># GGA+U</span><br><span class="line">LDAU = .TRUE.</span><br><span class="line">LDAUTYPE = 2</span><br><span class="line">LDAUL = 2 2 -1</span><br><span class="line">LDAUU = 4.84 6.00 0.00</span><br><span class="line">LDAUJ = 0.00 0.00 0.00</span><br><span class="line">LDAUPRINT = 2</span><br></pre></td></tr></table></figure>
+
+<h1 id="错误原因"><a href="#错误原因" class="headerlink" title="错误原因"></a>错误原因</h1><p><code>vasp</code> 官方论坛给出了几种可能的原因</p>
+<blockquote>
+<p>the error is due to a LAPCK call (ZHEGV):<br>ZHEGV computes all the eigenvalues, and optionally, the eigenvectors of a complex generalized Hermitian-definite eigenproblem .<br>there may be several reasons for that error:</p>
+<ol>
+<li><p>the RMM-DIIS diagonalisation algorithm is not stable for your specific setup of the calculation.<br>  –&gt; use ALGO &#x3D; Normal (blocked Davidson) or ALGO &#x3D; Fast (5 steps blocked Davidson, RMM-DIIS)</p>
+</li>
+<li><p>a) maybe your input geometry was not reasonable (error occurs at the very first ionic step, please have a look for the geometry data of your run in OUTCAR ) or </p>
+<p>  b) the last ionic relaxation step lead to an unreasonable geometry (compare the input and output geometries of the last ionic relaxation steps in XDATCAR).<br>  In that case (2b) it can be helpful to<br>–&gt; switch to a different relaxation algorithm (IBRION-tag)<br>–&gt; reduce the step size of the first step by setting POTIM smaller than the default value</p>
+</li>
+<li><p>The installation of the LAPACK on your machine was not done properly:<br> use the LAPACK which is delivered with the code<br> (vasp.4.lib&#x2F;lapack_double.o)</p>
+</li>
+<li><p>If the error persist although you switched to the Davidson algorithm:<br> on some architectures (especially SGI) some LAPACK routines are not working properly. However, it is possible to avoid the usage of the ZHEGV subroutine by commenting the line<br> #define USE_ZHEEVX<br> in davidson.F, subrot.F, and wavpre_noio.F and recompiling VASP.</p>
+</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://www.vasp.at/forum/viewtopic.php?t=214">https://www.vasp.at/forum/viewtopic.php?t=214</a></p>
+</blockquote>
+<p>大致意思为 <code>RMM-DIIS</code> 算法对于这个体系的计算仍不是很稳定（即 INCAR 中 ALGO 设置为 FAST 导致）；初始结构不太合理；<code>LAPACK</code> 安装有问题。</p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>主要参考了科音论坛的<a target="_blank" rel="noopener" href="http://bbs.keinsci.com/thread-508-1-1.html">这篇帖子</a> ，把 INCAR 中 <code>ALGO</code> 的值改为 <code>VeryFast</code> 即可。</p>
+<p>修改 INCAR 后重新提交，就没有类似的报错了。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/vasp/" rel="tag"># vasp</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/06/27/Push-computing-tasks-to-WeChat-through-WxPusher/" rel="prev" title="通过 WxPusher 推送计算任务">
+      <i class="fa fa-chevron-left"></i> 通过 WxPusher 推送计算任务
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/07/21/vasp-compile-for-vtst/" rel="next" title="VASP 5.4.4 + VTST 编译安装">
+      VASP 5.4.4 + VTST 编译安装 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%94%99%E8%AF%AF%E5%8E%9F%E5%9B%A0"><span class="nav-number">2.</span> <span class="nav-text">错误原因</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">3.</span> <span class="nav-text">解决方案</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="flmore"
+      src="https://flmore-github-io-1306099430.cos.ap-beijing.myqcloud.com/markdown-img/avtar_720x720.jpeg">
+  <p class="site-author-name" itemprop="name">flmore</p>
+  <div class="site-description" itemprop="description">记录生活，记录成长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">flmore</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
