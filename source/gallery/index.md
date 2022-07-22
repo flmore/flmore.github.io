@@ -1,6 +1,8 @@
 ---
 title: gallery
 date: 2022-06-05 23:51:02
+type: "gallery"
+layout: "gallery"
 comments: false
 ---
 <center>！相册描述【此行可删除】</center>
