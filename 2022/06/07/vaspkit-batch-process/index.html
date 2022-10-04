@@ -224,6 +224,7 @@
 
       
         <h1 id="提取总态密度（TDOS）和投影态密度（PDOS）"><a href="#提取总态密度（TDOS）和投影态密度（PDOS）" class="headerlink" title="提取总态密度（TDOS）和投影态密度（PDOS）"></a>提取总态密度（TDOS）和投影态密度（PDOS）</h1><h2 id="vaspkit-提取态密度"><a href="#vaspkit-提取态密度" class="headerlink" title="vaspkit 提取态密度"></a>vaspkit 提取态密度</h2><p>vaspkit 中与态密度相关的功能代码为 <code>11*</code> ，具体如下（<a target="_blank" rel="noopener" href="https://vaspkit.com/tutorials.html#extract-and-output-dos-and-pdos">官方文档</a>）</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -231,7 +232,8 @@
 <th>功能</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>111</td>
 <td>Get the total DOS.</td>
 </tr>
@@ -251,40 +253,35 @@
 <td>115</td>
 <td>Output sum of projected DOS for selected atoms and orbitals to one file.</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p>输入不同代码使用不同功能，根据界面提示输入信息完成计算结果的处理。</p>
 <h2 id="单个计算快速提取态密度"><a href="#单个计算快速提取态密度" class="headerlink" title="单个计算快速提取态密度"></a>单个计算快速提取态密度</h2><p>以尖晶石型锰酸锂为例，DOS 计算结束后，可以通过如下命令提取总态密度信息，并将屏幕输出保存至包含当前日期的日志文件：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="built_in">echo</span> <span class="string">&#x27;111&#x27;</span>) | vaspkit  &gt; vaspkit-extract-dos-dat_`<span class="built_in">date</span> +%Y%m%d`.<span class="built_in">log</span></span><br></pre></td></tr></table></figure>
-
 <p>命令执行后，当前目录下的 <code>TDOS.dat</code> 文件即可用于绘制 DOS 图。</p>
 <p>提取指定原子和轨道的投影态密度要稍复杂些，如提取 <code>Mn</code> 的 <code>3d</code> 轨道和 <code>O</code> 的 <code>2p</code> 轨道，可以使用如下命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="built_in">echo</span> <span class="string">&#x27;115&#x27;</span>; <span class="built_in">echo</span> <span class="string">&#x27;Mn&#x27;</span>; <span class="built_in">echo</span> <span class="string">&#x27;d&#x27;</span>; <span class="built_in">echo</span> <span class="string">&#x27;O&#x27;</span>; <span class="built_in">echo</span> <span class="string">&#x27;p&#x27;</span>; <span class="built_in">echo</span> -e <span class="string">&#x27;\n&#x27;</span>) | vaspkit &gt; vaspkit-extract-dos-dat_`<span class="built_in">date</span> +%Y%m%d`.<span class="built_in">log</span></span><br></pre></td></tr></table></figure>
-
-<p>vaspkit 最后一个输入参数 <code> echo -e &#39;\n&#39;</code> 模拟回车键，退出 vaspkit 选择界面。</p>
+<p>vaspkit 最后一个输入参数 <code>echo -e &#39;\n&#39;</code> 模拟回车键，退出 vaspkit 选择界面。</p>
 <p>如果要同时提取 TDOS 和 PDOS，需要把第二个屏幕输出重定向改为追加模式，否则前一个的屏幕输出会被覆盖。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(<span class="built_in">echo</span> <span class="string">&#x27;111&#x27;</span>)| vaspkit  &gt; vaspkit-extract-dos-dat_`<span class="built_in">date</span> +%Y%m%d`.<span class="built_in">log</span></span><br><span class="line">(<span class="built_in">echo</span> <span class="string">&#x27;115&#x27;</span>; <span class="built_in">echo</span> <span class="string">&#x27;Mn&#x27;</span>; <span class="built_in">echo</span> <span class="string">&#x27;d&#x27;</span>; <span class="built_in">echo</span> <span class="string">&#x27;O&#x27;</span>; <span class="built_in">echo</span> <span class="string">&#x27;p&#x27;</span>; <span class="built_in">echo</span> -e <span class="string">&#x27;\n&#x27;</span>) | vaspkit &gt;&gt; vaspkit-extract-dos-dat_`<span class="built_in">date</span> +%Y%m%d`.<span class="built_in">log</span></span><br></pre></td></tr></table></figure>
-
 <blockquote>
 <p><code>date +%Y%m%d</code> 可以生成当前年月日 <code>20220607</code> ，<code>date +%T</code> 可以生成当前时间 (如 <code>17:23:07</code> ），<code>date +%H%M%S</code> 可以生成当前时间对应的时分秒 （如 <code>172307</code>）</p>
 </blockquote>
 <h2 id="多个相似计算提取态密度"><a href="#多个相似计算提取态密度" class="headerlink" title="多个相似计算提取态密度"></a>多个相似计算提取态密度</h2><p>以上介绍了对于一个计算结果，如何快速提取态密度数据，如果我们有多个计算结果，可以搭配循环语句快速提取每一个计算结果的态密度数据。</p>
 <p>仍然以尖晶石型锰酸锂为例，当前目录下有 9 个子目录，每个子目录下都是一个态密度计算的结果（如下）：</p>
 <figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LixMn2O4_111-Vac0_i0_w1    LixMn2O4_111-Vac3_i00_w48  LixMn2O4_111-Vac6_i00_w16</span><br><span class="line">LixMn2O4_111-Vac1_i0_w8    LixMn2O4_111-Vac4_i00_w24  LixMn2O4_111-Vac7_i0_w8</span><br><span class="line">LixMn2O4_111-Vac2_i00_w16  LixMn2O4_111-Vac5_i00_w48  LixMn2O4_111-Vac8_i0_w1</span><br></pre></td></tr></table></figure>
-
 <p>可以通过下面的脚本提取每个计算结果中的态密度数据</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">dirname</span> <span class="keyword">in</span> *</span><br><span class="line"><span class="keyword">do</span> </span><br><span class="line">	<span class="built_in">cd</span> <span class="variable">$dirname</span></span><br><span class="line">	(<span class="built_in">echo</span> <span class="string">&#x27;111&#x27;</span>)| vaspkit  &gt; vaspkit-extract-dos-dat_`<span class="built_in">date</span> +%Y%m%d`.<span class="built_in">log</span></span><br><span class="line">	(<span class="built_in">echo</span> <span class="string">&#x27;115&#x27;</span>; <span class="built_in">echo</span> <span class="string">&#x27;Mn&#x27;</span>; <span class="built_in">echo</span> <span class="string">&#x27;d&#x27;</span>; <span class="built_in">echo</span> <span class="string">&#x27;O&#x27;</span>; <span class="built_in">echo</span> <span class="string">&#x27;p&#x27;</span>; <span class="built_in">echo</span> -e <span class="string">&#x27;\n&#x27;</span>) | vaspkit &gt;&gt; vaspkit-extract-dos-dat_`<span class="built_in">date</span> +%Y%m%d`.<span class="built_in">log</span></span><br><span class="line">	<span class="built_in">cd</span> ../</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
-
 <p>通过这个脚本可以在每个子目录下生成 <code>TDOS.dat</code> 和 <code>PDOS_USER.dat</code> ，我们再将其复制到本地作图即可。</p>
 <h3 id="使用-printf-格式化输出将文件传输至本地"><a href="#使用-printf-格式化输出将文件传输至本地" class="headerlink" title="使用 printf  格式化输出将文件传输至本地"></a>使用 <code>printf</code>  格式化输出将文件传输至本地</h3><p>我习惯使用 <code>scp</code> 在服务器和本地传输文件，但每次都要 <code>进入传输的文件路径 &gt; 复制文件地址 &gt; 本地敲命令传输</code> 十分繁琐，因此我构建了一个自动在屏幕输出 <code>scp</code> 传输命令的句子，就可以很方便地实现文件传输。 </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span> <span class="string">&quot;%s %s%s%s %s%s%s%s%s\n&quot;</span> scp `hostname` : `<span class="built_in">readlink</span> -f <span class="variable">$dirname</span>/PDOS_USER.dat` ./ `<span class="built_in">date</span> +%Y%m%d` _ <span class="variable">$dirname</span> _PDOS_USER.dat</span><br></pre></td></tr></table></figure>
-
 <p>将这个句子放入上面的循环中，就可以实现在屏幕上输出传输文件要使用的 scp 命令，屏幕输出结果类似 <code>scp yourhostname:/your/file/path ./20220607_path_PDOS_USER.dat</code> 之后就可以将其复制到你本地的 SHELL 传输文件喽~</p>
 <blockquote>
 <p>我这里通过 <code>hostname</code> 来指定服务器地址是提前在 <code>~/.ssh/config</code> 中配置过，具体可以参考<a target="_blank" rel="noopener" href="https://daemon369.github.io/ssh/2015/03/21/using-ssh-config-file">这篇文章</a>配置。</p>
 </blockquote>
 <p>同理，我们也可以写出传输 <code>TDOS.dat</code> 文件的句子：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span> <span class="string">&quot;%s %s%s%s %s%s%s%s%s\n&quot;</span> scp `hostname` : `<span class="built_in">readlink</span> -f <span class="variable">$dirname</span>/TDOS.dat` ./ `<span class="built_in">date</span> +%Y%m%d` _ <span class="variable">$dirname</span> _TDOS.dat</span><br></pre></td></tr></table></figure>
-
 <p>上面讲的是态密度数据的提取，对于很多任务都是通用的。要抓住不同任务的相同点，灵活运用循环语句来提高数据处理效率。</p>
 <h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] <a target="_blank" rel="noopener" href="https://vaspkit.com/tutorials.html#run-vaspkit-in-batch-mode">Tutorials — VASPKIT 1.3 documentation</a></p>
 
@@ -503,6 +500,8 @@
 
 
 
+
+  
 
   
 

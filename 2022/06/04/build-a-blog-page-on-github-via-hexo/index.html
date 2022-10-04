@@ -233,115 +233,77 @@
 
       
         <h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><h2 id="本机环境"><a href="#本机环境" class="headerlink" title="本机环境"></a>本机环境</h2><blockquote>
-<p>Windows edition:	Windows 11 Pro<br>Windows version: 10.0.22621.1<br>WSL version: 0.58.3.0<br>Kernel version: 5.10.102.1<br>WSLg version: 1.0.33<br>MSRDC version: 1.2.2924<br>Direct3D version: 1.601.0</p>
+<p>Windows edition:    Windows 11 Pro<br>Windows version: 10.0.22621.1<br>WSL version: 0.58.3.0<br>Kernel version: 5.10.102.1<br>WSLg version: 1.0.33<br>MSRDC version: 1.2.2924<br>Direct3D version: 1.601.0</p>
 </blockquote>
 <p>所有环境都在 Windows 子系统（debian）中搭建。</p>
 <h2 id="安装-node-js"><a href="#安装-node-js" class="headerlink" title="安装 node.js"></a>安装 node.js</h2><p>首先更新系统</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update &amp;&amp; sudo apt upgrade</span><br></pre></td></tr></table></figure>
-
 <p>安装 nodejs 与 npm</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install nodejs</span><br><span class="line">sudo apt install npm</span><br></pre></td></tr></table></figure>
-
 <p>但是这样安装后发现使用 hexo 时会出现错误</p>
 <figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TypeError: Object.fromEntries is not a function</span><br></pre></td></tr></table></figure>
-
 <p>将 nodejs 和 npm 升级即可</p>
 <h3 id="升级node-js和npm"><a href="#升级node-js和npm" class="headerlink" title="升级node.js和npm"></a>升级node.js和npm</h3><p>npm 中有一个模块叫做 “n” ，专门用来管理node.js版本</p>
 <p>更新到最新的稳定版可在命令行中打下如下代码：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install -g n</span><br><span class="line">n stable</span><br></pre></td></tr></table></figure>
-
 <p>npm升级只需要在终端中输入：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm -g install npm@next</span><br></pre></td></tr></table></figure>
-
 <p>升级后检查其版本</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node -v &amp;&amp; npm -v</span><br></pre></td></tr></table></figure>
-
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">output</span><br><span class="line">v16.15.1</span><br><span class="line">8.12.1</span><br></pre></td></tr></table></figure>
-
-
-
 <h2 id="安装-git"><a href="#安装-git" class="headerlink" title="安装 git"></a>安装 git</h2><p>使用 debian 默认的包管理器安装 git</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install git</span><br></pre></td></tr></table></figure>
-
 <p>确认 git 是否被正确安装</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git --version</span><br></pre></td></tr></table></figure>
-
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">git version 2.20.1</span><br></pre></td></tr></table></figure>
-
 <h2 id="安装-Hexo"><a href="#安装-Hexo" class="headerlink" title="安装 Hexo"></a>安装 Hexo</h2><p>在合适的地方新建目录</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> Blog</span><br></pre></td></tr></table></figure>
-
 <p>进入新建目录并安装 Hexo</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> Blog</span><br><span class="line">sudo npm i hexo-cli -g <span class="comment">#这里要加 sudo 否则会报错</span></span><br></pre></td></tr></table></figure>
-
 <p>验证 Hexo 是否安装成功</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo -v</span><br></pre></td></tr></table></figure>
-
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">output</span><br><span class="line">INFO  Validating config</span><br><span class="line">hexo: 6.2.0</span><br><span class="line">hexo-cli: 4.3.0</span><br><span class="line">os: linux 5.10.102.1-microsoft-standard-WSL2 Debian GNU/Linux 10 (buster) 10 (buster)</span><br><span class="line">node: 16.15.1</span><br><span class="line">v8: 9.4.146.24-node.21</span><br><span class="line">uv: 1.43.0</span><br><span class="line">zlib: 1.2.11</span><br><span class="line">brotli: 1.0.9</span><br><span class="line">ares: 1.18.1</span><br><span class="line">modules: 93</span><br><span class="line">nghttp2: 1.47.0</span><br><span class="line">napi: 8</span><br><span class="line">llhttp: 6.0.4</span><br><span class="line">openssl: 1.1.1o+quic</span><br><span class="line">cldr: 40.0</span><br><span class="line">icu: 70.1</span><br><span class="line">tz: 2021a3</span><br><span class="line">unicode: 14.0</span><br><span class="line">ngtcp2: 0.1.0-DEV</span><br><span class="line">nghttp3: 0.1.0-DEV</span><br></pre></td></tr></table></figure>
-
 <h3 id="Hexo-初始化"><a href="#Hexo-初始化" class="headerlink" title="Hexo  初始化"></a>Hexo  初始化</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo init <span class="comment">#初始化当前目录</span></span><br><span class="line">sudo npm install <span class="comment">#安装必备组件</span></span><br></pre></td></tr></table></figure>
-
 <h3 id="Hexo-常用命令"><a href="#Hexo-常用命令" class="headerlink" title="Hexo 常用命令"></a>Hexo 常用命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo g <span class="comment"># 生成静态网页</span></span><br><span class="line">hexo s <span class="comment"># 打开本地服务器预览，http://localhost:4000/</span></span><br><span class="line">hexo d <span class="comment"># 部署网页到远端服务器</span></span><br></pre></td></tr></table></figure>
-
 <h2 id="配置-github-与本地连接"><a href="#配置-github-与本地连接" class="headerlink" title="配置 github 与本地连接"></a>配置 github 与本地连接</h2><p>在 Blog 目录下添加 github 信息</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;your name&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;your email address&quot;</span></span><br></pre></td></tr></table></figure>
-
 <p>生成 SSH 密钥</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">&quot;youre email address&quot;</span> <span class="comment"># 一路回车即可</span></span><br></pre></td></tr></table></figure>
-
-<p>打开 <a target="_blank" rel="noopener" href="http://github.com/">github</a> ，在头像下面点击 <code>settings</code>，再点击 <code>SSH and GPG keys </code>，新建一个<code>SSH</code>，名字随意，再填入刚刚生成的公钥即可。</p>
+<p>打开 <a target="_blank" rel="noopener" href="http://github.com/">github</a> ，在头像下面点击 <code>settings</code>，再点击 <code>SSH and GPG keys</code>，新建一个<code>SSH</code>，名字随意，再填入刚刚生成的公钥即可。</p>
 <p>使用如下命令查看公钥</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> ~/.ssh/id_rsa.pub</span><br></pre></td></tr></table></figure>
-
 <p>确认是否连接成功</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
-
 <p>可以看到你的用户名即可</p>
 <p>最后需要打开博客根目录下的 <code>_config.yml</code> 文件，配置部署信息，修改如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim _config.yml</span></span><br><span class="line"></span><br><span class="line">deploy:</span><br><span class="line">  <span class="built_in">type</span>: git</span><br><span class="line">  repo: https://github.com/yourname/yourname.github.io</span><br><span class="line">  <span class="comment">#repo: git@github.com:yourname/yourname.github.io.git #若部署时出现 Spawn failed 错误，可用这种方式解决</span></span><br><span class="line">  branch: main</span><br></pre></td></tr></table></figure>
-
 <h1 id="发布第一篇博客"><a href="#发布第一篇博客" class="headerlink" title="发布第一篇博客"></a>发布第一篇博客</h1><p>在 <code>Blog</code> 根目录安装 <code>heox-deployer-git</code> 扩展用于将文章发布至 github</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm i hexo-deployer-git</span><br></pre></td></tr></table></figure>
-
 <p>使用 <code>hexo new</code> 新建一篇文章</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new post <span class="string">&quot;your article title&quot;</span></span><br></pre></td></tr></table></figure>
-
 <p>命令执行后，<code>/your/blog/path/Blog/source/_posts</code> 目录下会生成这篇文章的 <code>markdown</code> 文件，可以使用 <code>markdown</code> 编辑器来编辑文章内容。</p>
 <p>编写完成后，通过 <code>hexo g &amp;&amp; hexo s</code> 生成静态网页文件并在本地预览，最后通过 <code>hexo d</code> 上传至 github，此时打开 <code>yourname.github.io</code> 就可以看到你发布的文章啦。</p>
-<img src="https://flmore-github-io-1306099430.cos.ap-beijing.myqcloud.com/markdown-img/20220605150017.png" alt="blog早期"  />
-
+<p><img src="https://flmore-github-io-1306099430.cos.ap-beijing.myqcloud.com/markdown-img/20220605150017.png" alt="blog早期"  /></p>
 <h1 id="个性化配置"><a href="#个性化配置" class="headerlink" title="个性化配置"></a>个性化配置</h1><h2 id="修改主题为-next-主题"><a href="#修改主题为-next-主题" class="headerlink" title="修改主题为 next 主题"></a>修改主题为 next 主题</h2><p><code>next</code> 主题是 <code>Hexo</code> 框架下最流行的主题，同时该主题也比较符合我的审美，因此将默认主题修改为 <code>next</code> 主题。</p>
 <p>在 <code>Blog</code> 根目录下执行如下命令</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/next-theme/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
-
 <p>修改根目录下 <code>_config.yml</code> ，将默认主题改为 <code>next</code> 即可</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## Themes: https://hexo.io/themes/</span></span><br><span class="line">theme: next <span class="comment">#landscape</span></span><br></pre></td></tr></table></figure>
-
 <p><strong>Note: 如果没有特殊说明， 以下个性化配置项目都是基于 <code>next</code> 主题的。</strong></p>
 <h2 id="设置主页显示文章摘要"><a href="#设置主页显示文章摘要" class="headerlink" title="设置主页显示文章摘要"></a>设置主页显示文章摘要</h2><h3 id="通过设置-description-显示部分摘要"><a href="#通过设置-description-显示部分摘要" class="headerlink" title="通过设置 description 显示部分摘要"></a>通过设置 <code>description</code> 显示部分摘要</h3><p>在文章的 <code>front-matter</code> 中添加 <code>description</code> ，其中 <code>description</code> 中的内容就会被显示在首页上，其余一律不显示。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 让首页显示部分内容</span><br><span class="line"><span class="built_in">date</span>: 2022-06-05 22:55:10</span><br><span class="line">description: 这是显示在首页的概述，正文内容均会被隐藏。</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
 <h3 id="文章截断"><a href="#文章截断" class="headerlink" title="文章截断"></a>文章截断</h3><p>在需要截断的地方加入如下代码</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--more--&gt;</span><br></pre></td></tr></table></figure>
-
 <p>首页就会显示这条以上的所有内容，隐藏接下来的所有内容。</p>
 <h3 id="自动生成摘要"><a href="#自动生成摘要" class="headerlink" title="自动生成摘要"></a>自动生成摘要</h3><p>需要在主题配置中添加如下代码</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">auto_excerpt:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  length: 150 <span class="comment"># 摘要所截取的字符长度</span></span><br></pre></td></tr></table></figure>
-
 <h2 id="代码高亮"><a href="#代码高亮" class="headerlink" title="代码高亮"></a>代码高亮</h2><p>修改站点配置文件 <code>_config.yml</code> </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">highlight:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  line_number: <span class="literal">true</span></span><br><span class="line">  auto_detect: <span class="literal">true</span> <span class="comment">#false</span></span><br></pre></td></tr></table></figure>
-
 <p>主题配置文件 <code>your/blog/path/themes/next/_config.yml</code> 中，修改 highliht_theme 后面的值。可选值有</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">normal</span><br><span class="line">night</span><br><span class="line">night eighties</span><br><span class="line">night blue</span><br><span class="line">night bright</span><br></pre></td></tr></table></figure>
-
-
-
-
-
 <h2 id="添加-busuanzi-统计功能"><a href="#添加-busuanzi-统计功能" class="headerlink" title="添加 busuanzi  统计功能"></a>添加 busuanzi  统计功能</h2><p><img src="https://flmore-github-io-1306099430.cos.ap-beijing.myqcloud.com/markdown-img/20220605175354.png" alt="在网站底部显示访客数和浏览次数"></p>
 <p>修改主题配置文件</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Show Views / Visitors of the website / page with busuanzi.</span></span><br><span class="line"><span class="comment"># Get more information on http://ibruce.info/2015/04/04/busuanzi</span></span><br><span class="line">busuanzi_count:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span> <span class="comment">#false</span></span><br><span class="line">  total_visitors: <span class="literal">true</span></span><br><span class="line">  total_visitors_icon: fa fa-user</span><br><span class="line">  total_views: <span class="literal">true</span></span><br><span class="line">  total_views_icon: fa fa-eye</span><br><span class="line">  post_views: <span class="literal">true</span></span><br><span class="line">  post_views_icon: fa fa-eye</span><br></pre></td></tr></table></figure>
-
 <h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] <a target="_blank" rel="noopener" href="https://godweiyang.com/2018/04/13/hexo-blog/">超详细Hexo+Github博客搭建小白教程</a></p>
 <p>[2] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/26625249">GitHub+Hexo 搭建个人网站详细教程 - 知乎 (zhihu.com)</a></p>
 <p>[3] <a target="_blank" rel="noopener" href="https://www.cnblogs.com/luckforefforts/p/13642702.html">hexo博客front-matter格式 - luwanglin - 博客园 (cnblogs.com)</a></p>
@@ -349,17 +311,17 @@
 <p>[5] <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/265ff281e159">Hello Hexo！一款高效的个人博客框架 - 简书 (jianshu.com)</a></p>
 <p>[6] <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/f054333ac9e6">hexo的next主题个性化教程:打造炫酷网站 - 简书 (jianshu.com)</a></p>
 <p>[7] <a target="_blank" rel="noopener" href="https://yi-yun.github.io/Hexo-Next-Custom/">Hexo Next 博客自定义配置 | 斯是陋室，惟吾德馨 (yi-yun.github.io)</a></p>
-<p>[8] <a target="_blank" rel="noopener" href="https://yueyue200830.github.io/2020/02/23/%E8%AE%BE%E7%BD%AEhexo%E9%A6%96%E9%A1%B5%E5%8F%AA%E6%98%BE%E7%A4%BA%E9%83%A8%E5%88%86%E6%91%98%E8%A6%81%EF%BC%88%E4%B8%8D%E6%98%BE%E7%A4%BA%E5%85%A8%E6%96%87%EF%BC%89/">设置hexo首页只显示部分摘要（不显示全文） | Z Blog (yueyue200830.github.io)</a></p>
-<p>[9] <a target="_blank" rel="noopener" href="https://jiangding1990.github.io/2017/04/25/Hexo%E4%BD%BF%E7%94%A8NexT%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE%E4%B8%BB%E9%A1%B5%E6%98%BE%E7%A4%BA%E6%96%87%E7%AB%A0%E6%91%98%E8%A6%81%E6%96%B9%E6%B3%95/">Hexo使用NexT主题设置主页显示文章摘要方法 | 春风十里 (jiangding1990.github.io)</a></p>
-<p>[10] <a target="_blank" rel="noopener" href="https://io-oi.me/tech/hexo-next-optimization/#%E6%96%87%E7%AB%A0%E6%91%98%E8%A6%81%E5%9B%BE%E7%89%87">打造个性超赞博客 Hexo + NexT + GitHub Pages 的超深度优化 | reuixiy (io-oi.me)</a></p>
+<p>[8] <a target="_blank" rel="noopener" href="https://yueyue200830.github.io/2020/02/23/设置hexo首页只显示部分摘要（不显示全文）/">设置hexo首页只显示部分摘要（不显示全文） | Z Blog (yueyue200830.github.io)</a></p>
+<p>[9] <a target="_blank" rel="noopener" href="https://jiangding1990.github.io/2017/04/25/Hexo使用NexT主题设置主页显示文章摘要方法/">Hexo使用NexT主题设置主页显示文章摘要方法 | 春风十里 (jiangding1990.github.io)</a></p>
+<p>[10] <a target="_blank" rel="noopener" href="https://io-oi.me/tech/hexo-next-optimization/#文章摘要图片">打造个性超赞博客 Hexo + NexT + GitHub Pages 的超深度优化 | reuixiy (io-oi.me)</a></p>
 <p>[11] <a target="_blank" rel="noopener" href="https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-debian-10">How To Install Node.js on Debian 10 | DigitalOcean</a></p>
 <p>[12] <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000009025883">升级node.js和npm - SegmentFault 思否</a></p>
 <p>[13] <a target="_blank" rel="noopener" href="https://blog.csdn.net/zhongyuemengxiang/article/details/122510536">Hexo生成博客遇到的坑_0xwang的博客-CSDN博客</a></p>
 <p>[14] <a target="_blank" rel="noopener" href="https://wushishu.xyz/post/be8880ea.html">Hexo+github搭建个人博客 | 武师叔 (wushishu.xyz)</a></p>
 <p>[15] <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c60ad2a33a1e">Hexo部署出现错误err: Error: Spawn failed解决方式 - 简书 (jianshu.com)</a></p>
-<p>[16] <a target="_blank" rel="noopener" href="https://jaydenz.github.io/2018/04/06/1.Hexo%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/#Hexo%E5%91%BD%E4%BB%A4%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95">Hexo使用说明 | JaydenZ’s Blogs</a></p>
-<p>[17] <a target="_blank" rel="noopener" href="https://github.com/next-theme/hexo-theme-next">next-theme&#x2F;hexo-theme-next: 🎉 Elegant and powerful theme for Hexo. (github.com)</a></p>
-<p>[18] <a target="_blank" rel="noopener" href="https://github.com/willin/hexo-wordcount">willin&#x2F;hexo-wordcount: A Word Count Plugin for Hexo (github.com)</a></p>
+<p>[16] <a target="_blank" rel="noopener" href="https://jaydenz.github.io/2018/04/06/1.Hexo使用说明/#Hexo命令常见用法">Hexo使用说明 | JaydenZ’s Blogs</a></p>
+<p>[17] <a target="_blank" rel="noopener" href="https://github.com/next-theme/hexo-theme-next">next-theme/hexo-theme-next: 🎉 Elegant and powerful theme for Hexo. (github.com)</a></p>
+<p>[18] <a target="_blank" rel="noopener" href="https://github.com/willin/hexo-wordcount">willin/hexo-wordcount: A Word Count Plugin for Hexo (github.com)</a></p>
 
     </div>
 
@@ -573,6 +535,8 @@
 
 
 
+
+  
 
   
 

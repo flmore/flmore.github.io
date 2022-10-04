@@ -227,13 +227,10 @@
         <p><img src="https://flmore-github-io-1306099430.cos.ap-beijing.myqcloud.com/markdown-img/20220614100032.png" alt="Clash for Windows 端口号为 0 错误"></p>
 <p>检查 Clash 运行日志： <code>C:\Users\&lt;username&gt;\.config\clash\logs</code>  ，发现这行报错：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">level=error msg=&quot;Start Mixed(http and socks) server error: listen tcp 127.0.0.1:7890: bind: An attempt was made to access a socket in a way forbidden by its access permissions.&quot;</span><br></pre></td></tr></table></figure>
-
 <h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>管理员身份运行 CMD 执行下面的命令</p>
 <figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">netsh int ipv4 <span class="built_in">set</span> dynamicport tcp <span class="built_in">start</span>=<span class="number">49152</span> num=<span class="number">16383</span></span><br><span class="line">netsh int ipv4 <span class="built_in">set</span> dynamicport udp <span class="built_in">start</span>=<span class="number">49152</span> num=<span class="number">16383</span></span><br><span class="line"># https://blog.csdn.<span class="built_in">net</span>/tian2342/article/details/<span class="number">108934646</span></span><br><span class="line"></span><br><span class="line">netsh int ipv4 <span class="built_in">set</span> dynamic tcp <span class="built_in">start</span>=<span class="number">49152</span> num=<span class="number">16384</span></span><br><span class="line"># https://github.com/Fndroid/clash_for_windows_pkg/issues/<span class="number">671</span></span><br></pre></td></tr></table></figure>
-
 <p>之后检查结果</p>
 <figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netsh int ipv4 show dynamicport tcp</span><br></pre></td></tr></table></figure>
-
 <p>端口恢复正常后重启计算机。</p>
 <h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] <a target="_blank" rel="noopener" href="https://blog.frytea.com/archives/564/">解决 Clash for windows 端口为 0 导致无法使用 - Frytea’s Blog</a></p>
 <p>[2] <a target="_blank" rel="noopener" href="https://blog.csdn.net/tian2342/article/details/108934646">关于Windows端口没被占用提示An attempt was made to access a socket in a way forbidden by its access permissions_tian2342的博客-CSDN博客</a></p>
@@ -452,6 +449,8 @@
 
 
 
+
+  
 
   
 

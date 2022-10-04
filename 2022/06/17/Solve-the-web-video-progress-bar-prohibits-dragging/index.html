@@ -231,7 +231,7 @@
 <li>按键盘<code>F12</code> 进入开发者模式</li>
 </ol>
 <p><img src="https://flmore-github-io-1306099430.cos.ap-beijing.myqcloud.com/markdown-img/20220617182234.png" alt="进入开发者模式"></p>
-<ol start="2">
+<ol>
 <li><p>发现标志,html5播放器，属于原生支持最方便实现加速的</p>
 </li>
 <li><p>在开发者模式中找到 <code>Console</code>  调式窗口，输入以下代码进行设置</p>
@@ -240,10 +240,8 @@
 <p><img src="https://flmore-github-io-1306099430.cos.ap-beijing.myqcloud.com/markdown-img/20220617182435.png" alt="console 调试"></p>
 <p><strong>设置视频播放速度</strong></p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* play video twice as fast */</span></span><br><span class="line"><span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;video&#x27;</span>).<span class="property">defaultPlaybackRate</span> = <span class="number">1.0</span>;<span class="comment">//默认一倍速播放</span></span><br><span class="line"><span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;video&#x27;</span>).<span class="title function_">play</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">/* now play three times as fast just for the heck of it */</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;video&#x27;</span>).<span class="property">playbackRate</span> = <span class="number">10.0</span>;  <span class="comment">//修改此值设置当前的播放倍数</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p><strong>直接跳过视频</strong></p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">skip</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> video = <span class="variable language_">document</span>.<span class="title function_">getElementsByTagName</span>(<span class="string">&#x27;video&#x27;</span>)</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;video.<span class="property">length</span>; i++) &#123;</span><br><span class="line">        video[i].<span class="property">currentTime</span> = video[i].<span class="property">duration</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">setInterval</span>(skip,<span class="number">200</span>)</span><br></pre></td></tr></table></figure>
-
 
     </div>
 
@@ -457,6 +455,8 @@
 
 
 
+
+  
 
   
 

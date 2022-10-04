@@ -224,19 +224,21 @@
         <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>使用 <code>vasp</code> 对完全脱锂的镍锰酸锂做结构优化时报错，报错信息为 <code>WARNING in EDDRMM: call to ZHEGV failed, returncode = 6 3 9</code></p>
 <p>INCAR 文件如下</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">Global Parameters</span><br><span class="line">ISTART =  1            (Read existing wavefunction; if there)</span><br><span class="line">ENCUT  =  520       (Cut-off energy for plane wave basis set, in eV)</span><br><span class="line">PREC   =  Normal       (Precision level)</span><br><span class="line">LWAVE  = .FALSE.        (Write WAVECAR or not)</span><br><span class="line">LCHARG = .FALSE.        (Write CHGCAR or not)</span><br><span class="line">ADDGRID= .TRUE.        (Increase grid; helps GGA convergence)</span><br><span class="line">LASPH = .TRUE.</span><br><span class="line">NPAR = 4</span><br><span class="line">ALGO    = FAST</span><br><span class="line">ISPIN    = 2</span><br><span class="line"></span><br><span class="line"># d orbital</span><br><span class="line">LMAXMIX  = 4</span><br><span class="line"></span><br><span class="line"># mag system</span><br><span class="line">AMIX = 0.2</span><br><span class="line">BMIX = 0.0001</span><br><span class="line">AMIX MAG = 0.8</span><br><span class="line">BMIX MAG = 0.0001</span><br><span class="line">LREAL= Auto</span><br><span class="line"></span><br><span class="line">Electronic Relaxation</span><br><span class="line">ISMEAR =  0            (Gaussian smearing; metals:1)</span><br><span class="line">SIGMA  =  0.05         (Smearing value in eV; metals:0.2)</span><br><span class="line">NELM   =  90           (Max electronic SCF steps)</span><br><span class="line">NELMIN =  6            (Min electronic SCF steps)</span><br><span class="line">EDIFF  =  1E-05        (SCF energy convergence; in eV)</span><br><span class="line"># GGA  =  PS           (PBEsol exchange-correlation)</span><br><span class="line"></span><br><span class="line">Ionic Relaxation</span><br><span class="line">NSW    =  500          (Max ionic steps)</span><br><span class="line">IBRION =  2            (Algorithm: 0-MD; 1-Quasi-New; 2-CG)</span><br><span class="line">ISIF   =  3            (Stress/relaxation: 2-Ions, 3-Shape/Ions/V, 4-Shape/Ions)</span><br><span class="line">EDIFFG = -1E-02        (Ionic convergence; eV/AA)</span><br><span class="line"># ISYM =  2            (Symmetry: 0=none; 2=GGA; 3=hybrids)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># GGA+U</span><br><span class="line">LDAU = .TRUE.</span><br><span class="line">LDAUTYPE = 2</span><br><span class="line">LDAUL = 2 2 -1</span><br><span class="line">LDAUU = 4.84 6.00 0.00</span><br><span class="line">LDAUJ = 0.00 0.00 0.00</span><br><span class="line">LDAUPRINT = 2</span><br></pre></td></tr></table></figure>
-
 <h1 id="错误原因"><a href="#错误原因" class="headerlink" title="错误原因"></a>错误原因</h1><p><code>vasp</code> 官方论坛给出了几种可能的原因</p>
 <blockquote>
 <p>the error is due to a LAPCK call (ZHEGV):<br>ZHEGV computes all the eigenvalues, and optionally, the eigenvectors of a complex generalized Hermitian-definite eigenproblem .<br>there may be several reasons for that error:</p>
 <ol>
-<li><p>the RMM-DIIS diagonalisation algorithm is not stable for your specific setup of the calculation.<br>  –&gt; use ALGO &#x3D; Normal (blocked Davidson) or ALGO &#x3D; Fast (5 steps blocked Davidson, RMM-DIIS)</p>
+<li><p>the RMM-DIIS diagonalisation algorithm is not stable for your specific setup of the calculation.<br>  —&gt; use ALGO = Normal (blocked Davidson) or ALGO = Fast (5 steps blocked Davidson, RMM-DIIS)</p>
 </li>
 <li><p>a) maybe your input geometry was not reasonable (error occurs at the very first ionic step, please have a look for the geometry data of your run in OUTCAR ) or </p>
-<p>  b) the last ionic relaxation step lead to an unreasonable geometry (compare the input and output geometries of the last ionic relaxation steps in XDATCAR).<br>  In that case (2b) it can be helpful to<br>–&gt; switch to a different relaxation algorithm (IBRION-tag)<br>–&gt; reduce the step size of the first step by setting POTIM smaller than the default value</p>
+<p>  b) the last ionic relaxation step lead to an unreasonable geometry (compare the input and output geometries of the last ionic relaxation steps in XDATCAR).<br>  In that case (2b) it can be helpful to</p>
+<pre><code>--&gt; switch to a different relaxation algorithm (IBRION-tag)
+--&gt; reduce the step size of the first step by setting POTIM smaller than the default value
+</code></pre></li>
+<li><p>The installation of the LAPACK on your machine was not done properly:<br> use the LAPACK which is delivered with the code<br> (vasp.4.lib/lapack_double.o)</p>
 </li>
-<li><p>The installation of the LAPACK on your machine was not done properly:<br> use the LAPACK which is delivered with the code<br> (vasp.4.lib&#x2F;lapack_double.o)</p>
-</li>
-<li><p>If the error persist although you switched to the Davidson algorithm:<br> on some architectures (especially SGI) some LAPACK routines are not working properly. However, it is possible to avoid the usage of the ZHEGV subroutine by commenting the line<br> #define USE_ZHEEVX<br> in davidson.F, subrot.F, and wavpre_noio.F and recompiling VASP.</p>
+<li><p>If the error persist although you switched to the Davidson algorithm:<br> on some architectures (especially SGI) some LAPACK routines are not working properly. However, it is possible to avoid the usage of the ZHEGV subroutine by commenting the line</p>
+<h1 id="define-USE-ZHEEVX"><a href="#define-USE-ZHEEVX" class="headerlink" title="define USE_ZHEEVX"></a>define USE_ZHEEVX</h1><p> in davidson.F, subrot.F, and wavpre_noio.F and recompiling VASP.</p>
 </li>
 </ol>
 <p><a target="_blank" rel="noopener" href="https://www.vasp.at/forum/viewtopic.php?t=214">https://www.vasp.at/forum/viewtopic.php?t=214</a></p>
@@ -327,7 +329,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%94%99%E8%AF%AF%E5%8E%9F%E5%9B%A0"><span class="nav-number">2.</span> <span class="nav-text">错误原因</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">3.</span> <span class="nav-text">解决方案</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%94%99%E8%AF%AF%E5%8E%9F%E5%9B%A0"><span class="nav-number">2.</span> <span class="nav-text">错误原因</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#define-USE-ZHEEVX"><span class="nav-number">3.</span> <span class="nav-text">define USE_ZHEEVX</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">4.</span> <span class="nav-text">解决方案</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -458,6 +460,8 @@
 
 
 
+
+  
 
   
 

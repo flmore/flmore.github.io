@@ -28,7 +28,7 @@
 <meta property="og:description" content="本文记录了过渡态方法计算扩散系数的公式推导，并给出了对应的Python计算脚本。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-10-04T08:17:37.000Z">
-<meta property="article:modified_time" content="2022-10-04T09:15:24.956Z">
+<meta property="article:modified_time" content="2022-10-04T09:27:11.617Z">
 <meta property="article:author" content="flmore">
 <meta property="article:tag" content="vasp">
 <meta property="article:tag" content="transition state">
@@ -192,7 +192,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-10-04 16:17:37 / Modified: 17:15:24" itemprop="dateCreated datePublished" datetime="2022-10-04T16:17:37+08:00">2022-10-04</time>
+              <time title="Created: 2022-10-04 16:17:37 / Modified: 17:27:11" itemprop="dateCreated datePublished" datetime="2022-10-04T16:17:37+08:00">2022-10-04</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -223,19 +223,23 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="计算原理"><a href="#计算原理" class="headerlink" title="计算原理"></a>计算原理</h1><p>阿仑尼乌斯公式(Arrhenius equation)不但揭示了化学 反应的速率常数与温度之间的关系, 同时也适用于表示扩散系数与温度间的关系。扩散系数的阿仑尼乌斯表达形式为：<br>$$<br>D&#x3D;D_0\exp(-E_a&#x2F;k_BT)<br>$$<br>式中 $$ D_0 $$ 为扩散常数, $$ E_a $$ 为扩散势垒, $$ k_B $$ 和 $$ T $$分别为玻尔兹曼常数和绝对温度, $$ k_B &#x3D; 1.38 × 10^{−23} J·K^{−1} $$ 。</p>
-<p>根据过渡态理论, 原子在固体中的跃迁率表达式为<br>$$<br>v&#x3D;\nu\exp(-E_a&#x2F;k_BT)<br>$$<br>式中 $$ \nu $$ 为原子的振动频率。由原子跃迁率, 可以把扩散系数表示为<br>$$<br>D&#x3D;l^2\nu\exp(-E_a&#x2F;k_BT)<br>$$<br>式中 $$ l $$ 为原子每次跃迁的距离, 通过对原子在跃迁过程中始末位置进行测量, 即使用 <code>dist.pl IS/POSCAR FS/POSCAR</code>得出的距离。根据温特-齐纳理论，振动频率 $$\nu$$ 可以近似地表示为<br>$$<br>\nu&#x3D;(2E_a&#x2F;ml^2)^{1&#x2F;2}<br>$$<br>式中 $$m$$ 为单一原子的质量。</p>
-<p>将以上求得的 $$l, \nu, E_a$$ 值并代入扩散系数计算公式, 即可得到原子在晶格中的扩散系数。</p>
-<h1 id="计算脚本"><a href="#计算脚本" class="headerlink" title="计算脚本"></a>计算脚本</h1><p>设 $$C$$ 在 $$V$$ 中的扩散能垒为 0.89 $$eV$$，$$C$$ 原子扩散距离为  2.141 $$\AA$$ ，$$C$$ 原子质量为 $$1.993×10^{−26} kg$$，则 500 $$K$$ 下的扩散系数计算脚本如下：</p>
+        <h1 id="计算原理"><a href="#计算原理" class="headerlink" title="计算原理"></a>计算原理</h1><p>阿仑尼乌斯公式(Arrhenius equation)不但揭示了化学 反应的速率常数与温度之间的关系, 同时也适用于表示扩散系数与温度间的关系。扩散系数的阿仑尼乌斯表达形式为：</p>
+<script type="math/tex; mode=display">
+D=D_0\exp(-E_a/k_BT)</script><p>式中 <script type="math/tex">D_0</script> 为扩散常数, <script type="math/tex">E_a</script> 为扩散势垒, <script type="math/tex">k_B</script> 和 <script type="math/tex">T</script>分别为玻尔兹曼常数和绝对温度, <script type="math/tex">k_B = 1.38 × 10^{−23} J·K^{−1}</script> 。</p>
+<p>根据过渡态理论, 原子在固体中的跃迁率表达式为</p>
+<script type="math/tex; mode=display">
+v=\nu\exp(-E_a/k_BT)</script><p>式中 <script type="math/tex">\nu</script> 为原子的振动频率。由原子跃迁率, 可以把扩散系数表示为</p>
+<script type="math/tex; mode=display">
+D=l^2\nu\exp(-E_a/k_BT)</script><p>式中 <script type="math/tex">l</script> 为原子每次跃迁的距离, 通过对原子在跃迁过程中始末位置进行测量, 即使用 <code>dist.pl IS/POSCAR FS/POSCAR</code>得出的距离。根据温特-齐纳理论，振动频率 <script type="math/tex">\nu</script> 可以近似地表示为</p>
+<script type="math/tex; mode=display">
+\nu=(2E_a/ml^2)^{1/2}</script><p>式中 <script type="math/tex">m</script> 为单一原子的质量。</p>
+<p>将以上求得的 <script type="math/tex">l, \nu, E_a</script> 值并代入扩散系数计算公式, 即可得到原子在晶格中的扩散系数。</p>
+<h1 id="计算脚本"><a href="#计算脚本" class="headerlink" title="计算脚本"></a>计算脚本</h1><p>设 <script type="math/tex">C</script> 在 <script type="math/tex">V</script> 中的扩散能垒为 0.89 <script type="math/tex">eV</script>，<script type="math/tex">C</script> 原子扩散距离为  2.141 <script type="math/tex">\AA</script> ，<script type="math/tex">C</script> 原子质量为 <script type="math/tex">1.993×10^{−26} kg</script>，则 500 <script type="math/tex">K</script> 下的扩散系数计算脚本如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">calcDiffusion</span>(<span class="params">l, m, Ea, T</span>):</span><br><span class="line">    Ea_iso = Ea*<span class="number">1.60217663e-19</span> <span class="comment"># Converting Energy to SI</span></span><br><span class="line">    Kb = <span class="number">1.380649e-23</span> <span class="comment"># The value of Boltzmann constant, J/K.</span></span><br><span class="line">    </span><br><span class="line">    v = ((<span class="number">2</span>*Ea_iso)/(m*l**<span class="number">2</span>))**(<span class="number">1</span>/<span class="number">2</span>) <span class="comment"># vibration frequency.</span></span><br><span class="line">    exp = math.exp(-Ea_iso/(Kb*T))</span><br><span class="line">    </span><br><span class="line">    D0 = v*l**<span class="number">2</span> <span class="comment"># diffusion constant. Unit: (m^2/s)</span></span><br><span class="line">    D = D0*exp <span class="comment"># diffusion coefficient. Unit: (m^2/s)</span></span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;D0: &#123;&#125;, D: &#123;&#125;&quot;</span>.<span class="built_in">format</span>(D0, D))</span><br><span class="line">    <span class="keyword">return</span>((D0, D))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">l = <span class="number">2.14e-10</span> <span class="comment"># The length of the migration path in m.</span></span><br><span class="line">m = <span class="number">1.99e-26</span> <span class="comment"># The mass of atom in kg.</span></span><br><span class="line">Ea = <span class="number">0.89</span> <span class="comment"># The migration barrier in eV.</span></span><br><span class="line">T = <span class="number">500</span> <span class="comment"># absolute temperature in K.</span></span><br><span class="line"></span><br><span class="line">calcDiffusion(l, m, Ea, T)</span><br></pre></td></tr></table></figure>
-
 <p>输出结果为：</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D0: 8.101257427262206e-07, D: 8.66457539553957e-16</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] Yang Biao, Wang Li-Ge, Yi Yong, Wang En-Ze, Peng Li-Xia. First-principles calculations of the diffusion behaviors of C, N and O atoms in V metal. <em>Acta Phys. Sin</em>., <strong>2015</strong>, 64(2): 026602. doi: 10.7498&#x2F;aps.64.026602</p>
-<p>[2] Said Oukahou, Mohammad Maymoun, Abdelali Elomrani, Khalid Sbiaai, and Abdellatif Hasnaoui. Enhancing the Electrochemical Performance of Olivine LiMnPO4 as Cathode Materials for Li-Ion Batteries by Ni–Fe Codoping. <em>ACS Applied Energy Materials</em> <strong>2022</strong> <em>5</em> (9), 10591-10603. DOI: 10.1021&#x2F;acsaem.2c01319</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] Yang Biao, Wang Li-Ge, Yi Yong, Wang En-Ze, Peng Li-Xia. First-principles calculations of the diffusion behaviors of C, N and O atoms in V metal. <em>Acta Phys. Sin</em>., <strong>2015</strong>, 64(2): 026602. doi: 10.7498/aps.64.026602</p>
+<p>[2] Said Oukahou, Mohammad Maymoun, Abdelali Elomrani, Khalid Sbiaai, and Abdellatif Hasnaoui. Enhancing the Electrochemical Performance of Olivine LiMnPO4 as Cathode Materials for Li-Ion Batteries by Ni–Fe Codoping. <em>ACS Applied Energy Materials</em> <strong>2022</strong> <em>5</em> (9), 10591-10603. DOI: 10.1021/acsaem.2c01319</p>
 
     </div>
 
@@ -451,6 +455,61 @@
 
 
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

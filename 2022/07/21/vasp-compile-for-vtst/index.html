@@ -229,31 +229,21 @@
       
         <h1 id="VTST-介绍"><a href="#VTST-介绍" class="headerlink" title="VTST 介绍"></a>VTST 介绍</h1><p>VTST(Transition State Tools for VASP)是VASP的过渡态工具，官网地址 <a target="_blank" rel="noopener" href="http://theory.cm.utexas.edu/vtsttools/index.html">http://theory.cm.utexas.edu/vtsttools/index.html</a> 。</p>
 <h1 id="编译安装过程"><a href="#编译安装过程" class="headerlink" title="编译安装过程"></a>编译安装过程</h1><h2 id="1-解压-vasp-源码"><a href="#1-解压-vasp-源码" class="headerlink" title="1. 解压 vasp 源码"></a>1. 解压 vasp 源码</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf vasp.5.4.4.tgz</span><br><span class="line"><span class="built_in">cd</span> vasp.5.4.4</span><br></pre></td></tr></table></figure>
-
 <h2 id="2-获取-vtst-源码"><a href="#2-获取-vtst-源码" class="headerlink" title="2. 获取 vtst 源码"></a>2. 获取 vtst 源码</h2><p>vtst 源码下载地址 <a target="_blank" rel="noopener" href="http://theory.cm.utexas.edu/code/vtstcode-184.tgz">http://theory.cm.utexas.edu/code/vtstcode-184.tgz</a></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://theory.cm.utexas.edu/code/vtstcode-184.tgz <span class="comment"># download vtst code</span></span><br><span class="line">tar zxvf vtstcode-184.tgz</span><br></pre></td></tr></table></figure>
-
 <h2 id="3-修改-vasp-源码"><a href="#3-修改-vasp-源码" class="headerlink" title="3. 修改 vasp 源码"></a>3. 修改 vasp 源码</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> src/chain.F scr/chain.F.bak <span class="comment"># bakup chain.F file</span></span><br><span class="line"><span class="built_in">cp</span> vtstcode-184/vtstcode5/* src</span><br></pre></td></tr></table></figure>
-
-<p>src&#x2F;main.F 中需要把</p>
+<p>src/main.F 中需要把</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CALL CHAIN_FORCE(T_INFO%NIONS,DYN%POSION,TOTEN,TIFOR, &amp;</span><br><span class="line">     LATT_CUR%A,LATT_CUR%B,IO%IU6)</span><br></pre></td></tr></table></figure>
-
 <p>替换为</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CALL CHAIN_FORCE(T_INFO%NIONS,DYN%POSION,TOTEN,TIFOR, &amp;</span><br><span class="line">     TSIF,LATT_CUR%A,LATT_CUR%B,IO%IU6)</span><br></pre></td></tr></table></figure>
-
-<p>修改编译配置 src&#x2F;.objects ，在chain.o前（大概第67行）添加如下内容：</p>
+<p>修改编译配置 src/.objects ，在chain.o前（大概第67行）添加如下内容：</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bfgs<span class="selector-class">.o</span> dynmat<span class="selector-class">.o</span>  instanton<span class="selector-class">.o</span>  lbfgs<span class="selector-class">.o</span> sd<span class="selector-class">.o</span>   cg<span class="selector-class">.o</span> dimer<span class="selector-class">.o</span> bbm<span class="selector-class">.o</span> \</span><br><span class="line">fire<span class="selector-class">.o</span> lanczos<span class="selector-class">.o</span> neb<span class="selector-class">.o</span>  qm<span class="selector-class">.o</span> opt<span class="selector-class">.o</span> \</span><br></pre></td></tr></table></figure>
-
 <h2 id="4-加载编译器环境"><a href="#4-加载编译器环境" class="headerlink" title="4. 加载编译器环境"></a>4. 加载编译器环境</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> /opt/intel/oneapi/setvars.sh intel64</span><br></pre></td></tr></table></figure>
-
 <p>使用 <code>which ifort</code> 查看 <code>ifort</code> 路径，屏幕会输出类似内容：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/opt/intel/oneapi/compiler/2021.3.0/linux/bin/intel64/ifort</span><br></pre></td></tr></table></figure>
-
 <p>同理，使用 <code>echo $MKLROOT</code> 查看 Intel MKL 环境：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/opt/intel/oneapi/mkl/2021.3.0</span><br></pre></td></tr></table></figure>
-
 <h2 id="5-执行编译"><a href="#5-执行编译" class="headerlink" title="5.执行编译"></a>5.执行编译</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> <span class="built_in">arch</span>/makefile.include.linux_intel ./makefile.include</span><br><span class="line">make all</span><br></pre></td></tr></table></figure>
-
 <h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] [VASP 5.4.1+VTST编译安装 (ustc.edu.cn)<a target="_blank" rel="noopener" href="http://theory.cm.utexas.edu/vtsttools/installation.html">http://theory.cm.utexas.edu/vtsttools/installation.html</a>)</p>
 <p>[2] <a target="_blank" rel="noopener" href="http://theory.cm.utexas.edu/vtsttools/index.html">Transition State Tools for VASP — Transition State Tools for VASP (utexas.edu)</a></p>
 <p>[3] <a target="_blank" rel="noopener" href="https://www.vasp.at/wiki/index.php/Installing_VASP.5.X.X">Installing VASP.5.X.X - Vaspwiki</a></p>
@@ -471,6 +461,8 @@
 
 
 
+
+  
 
   
 
