@@ -7,13 +7,13 @@ categories: ["实验室"]
 description: vasp与vaspkit配合使用将极大的提高效率。但默认情况下 vaspkit 会安装在用户目录下。如果很多用户都会使用到 vaspkit，那么将其安装在公共目录下更加合适。本文记录了如何在自己的账号中配置 vaspkit。
 ---
 
-1. 在家目录下新建`.vaspkit` 文件
+- 在家目录下新建`.vaspkit` 文件
 
 ```bash
 vim ~/.vaspkit
 ```
 
-2. 进入编辑模式，粘贴如下内容：
+- 进入编辑模式，粘贴如下内容：
 
 ```bash
 # cp how_to_set_environment_variable ~/.vaspkit and modify the ~/.vaspkit file based on your settings!
@@ -45,5 +45,5 @@ VACUUM_THICKNESS               15.0                          # The thickness of 
 CENTER_SLAB                   .TRUE.                         # Center the slab in the z direction; (default value: .TRUE.)
 ```
 
-3. 保存并退出
-4. 开始愉快地使用`vaspkit` 做前处理和后处理。
+- 保存并退出
+- 开始愉快地使用`vaspkit` 做前处理和后处理。
