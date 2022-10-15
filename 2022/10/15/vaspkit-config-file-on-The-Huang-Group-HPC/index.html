@@ -28,7 +28,7 @@
 <meta property="og:description" content="vasp与vaspkit配合使用将极大的提高效率。但默认情况下 vaspkit 会安装在用户目录下。如果很多用户都会使用到 vaspkit，那么将其安装在公共目录下更加合适。本文记录了如何在自己的账号中配置 vaspkit。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-10-15T14:05:22.000Z">
-<meta property="article:modified_time" content="2022-10-15T14:22:21.509Z">
+<meta property="article:modified_time" content="2022-10-15T14:33:04.808Z">
 <meta property="article:author" content="flmore">
 <meta property="article:tag" content="vasp">
 <meta property="article:tag" content="vaspkit">
@@ -191,7 +191,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-10-15 22:05:22 / Modified: 22:22:21" itemprop="dateCreated datePublished" datetime="2022-10-15T22:05:22+08:00">2022-10-15</time>
+              <time title="Created: 2022-10-15 22:05:22 / Modified: 22:33:04" itemprop="dateCreated datePublished" datetime="2022-10-15T22:05:22+08:00">2022-10-15</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -222,18 +222,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <ol>
+        <ul>
 <li>在家目录下新建<code>.vaspkit</code> 文件</li>
-</ol>
+</ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.vaspkit</span><br></pre></td></tr></table></figure>
-<ol>
+<ul>
 <li>进入编辑模式，粘贴如下内容：</li>
-</ol>
+</ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cp how_to_set_environment_variable ~/.vaspkit and modify the ~/.vaspkit file based on your settings!</span></span><br><span class="line">VASP5                         .TRUE.                         <span class="comment"># .TRUE. or .FALSE.; Set .FALSE. if you are using vasp.4.x</span></span><br><span class="line">LDA_PATH                      ~/POTCAR/LDA                   <span class="comment">#  Path of LDA potential.</span></span><br><span class="line">PBE_PATH                      /opt/vasp/pseudopotential/PAW.PBE.54/                   <span class="comment">#  Path of PBE potential.</span></span><br><span class="line">GGA_PATH                      ~/POTCAR/GGA                   <span class="comment">#  Path of PW91 potential.</span></span><br><span class="line">POTCAR_TYPE                    PBE                           <span class="comment">#  PBE, PW91 or LDA; Set PBE if you want to make PBE-POTCAR file</span></span><br><span class="line">GW_POTCAR                     .FALSE.                        <span class="comment"># .TRUE. or .FALSE.; For example, H_GW, O_GW will be chose when POTCAR_GW = .TRUE.</span></span><br><span class="line">RECOMMENDED_POTCAR            .TRUE.                         <span class="comment"># .TRUE. or .FALSE.; The recommended PAW potential will be chose when RECOMMENDED_POTCAR = .TRUE.</span></span><br><span class="line">SET_FERMI_ENERGY_ZERO         .TRUE.                         <span class="comment"># .TRUE. or .FALSE.; The Fermi Energy will be set to zero eV when SET_FERMI_ENERGY_ZERO = .TRUE.</span></span><br><span class="line">MINI_INCAR                    .FALSE.                        <span class="comment"># .TRUE. or .FALSE.; A simplified INCAR will be written when MINI_INCAR = .TRUE.</span></span><br><span class="line">USER_DEFINED_INCAR            .FALSE.                        <span class="comment"># .TRUE. or .FALSE.; whether to use embedded INCAR templates or user defined INCAR templates</span></span><br><span class="line">WRITE_SELECTIVE_DYNAMICS      .FALSE.                        <span class="comment"># .TRUE. or .FALSE.; whether the selective dymanics set will be forced to write when SET_SELECTIVE_DYNAMICS_MODE = .FALSE.</span></span><br><span class="line">PYTHON_BIN                     /opt/anaconda3/bin/python3       <span class="comment">#  Python executable program with its installation path. I recommend you install anaconda package for Python data science</span></span><br><span class="line">PLOT_MATPLOTLIB               .FALSE.                        <span class="comment"># .TRUE. or .FALSE.; Set .TRUE. if you want to generate Graphs. (Matplotlib and Numpy packages MUST be embedded in Python)</span></span><br><span class="line">VASPKIT_UTILITIES_PATH        /usr/local/vaspkit/utilities            <span class="comment">#  IF ADVANCED_USER is .TRUE., set VASPKIT_UTILITIES_PATH like ~/vaspkit.0.72/utilities in order to use scripts in it.</span></span><br><span class="line">ADVANCED_USER                 .TRUE.                         <span class="comment"># .TRUE. or .FALSE.; Please fill in your settings in the block &#x27;USER_DEFINED&#x27; if you want vaspkit to integrate your own scripts in the &#x27;UTILITIES&#x27; file.</span></span><br><span class="line">SET_INCAR_WRITE_MODE           OVERRIDE                      <span class="comment">#  OVERRIDE, APPEND, BACK-UP-OLD,BACK-UP-NEW;  &quot;Customize INCAR File&quot;  whether to override existing INCAR/appending existing INCAR/backup existing INCAR to INCAR.old &amp;&amp; write into INCAR/write into INCAR.new</span></span><br><span class="line">PHS_CORRECTION                .FALSE.                        <span class="comment"># .TRUE. or .FALSE.; whether to make PHS correction during linear optical calculations. More details on this correction are given in Comput. Mater. Sci. 172 (2020) 109315.</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Reset the default values of variables in here</span></span><br><span class="line">SYMPREC                        1E-5                          <span class="comment"># Distance tolerance in Cartesian coordinates to find crystal symmetry (default value: 1E-5)</span></span><br><span class="line">EMIN                          -20.0                          <span class="comment"># Minimum energy for evaluation of DOS (default value: -20.0 eV)</span></span><br><span class="line">EMAX                           20.0                          <span class="comment"># Maximum energy for evaluation of DOS (default value:  20.0 eV)</span></span><br><span class="line">NEDOS                          2001                          <span class="comment"># Number of grid points in DOS (default value: 2001)</span></span><br><span class="line">GAMMA_CENTERED                .TRUE.                         <span class="comment"># .TRUE. or .FALSE.; (default value: .TRUE.)</span></span><br><span class="line">VACUUM_THICKNESS               15.0                          <span class="comment"># The thickness of vacuum to build slab or 2D materials (default value: 10 angstrom)</span></span><br><span class="line">CENTER_SLAB                   .TRUE.                         <span class="comment"># Center the slab in the z direction; (default value: .TRUE.)</span></span><br></pre></td></tr></table></figure>
-<ol>
+<ul>
 <li>保存并退出</li>
 <li>开始愉快地使用<code>vaspkit</code> 做前处理和后处理。</li>
-</ol>
+</ul>
 
     </div>
 
