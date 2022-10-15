@@ -20,20 +20,21 @@
     var CONFIG = {"hostname":"flmore.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="本文记录了vasp错误输出 EDDRMM: call to ZHEGV failed 的错误原因及解决方案">
+  <meta name="description" content="vasp与vaspkit配合使用将极大的提高效率。但默认情况下 vaspkit 会安装在用户目录下。如果很多用户都会使用到 vaspkit，那么将其安装在公共目录下更加合适。本文记录了如何在自己的账号中配置 vaspkit。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="VASP 错误 WARNING in EDDRMM: call to ZHEGV failed, returncode &#x3D; 6 3 9">
-<meta property="og:url" content="https://flmore.github.io/2022/07/01/WARNING-in-EDDRMM-call-to-ZHEGV-failed-returncode-6-3-9/index.html">
+<meta property="og:title" content="课题组 HPC 计算服务器 vaspkit 配置">
+<meta property="og:url" content="https://flmore.github.io/2022/10/15/vaspkit-config-file-on-The-Huang-Group-HPC/index.html">
 <meta property="og:site_name" content="flmore&#39;s blog">
-<meta property="og:description" content="本文记录了vasp错误输出 EDDRMM: call to ZHEGV failed 的错误原因及解决方案">
+<meta property="og:description" content="vasp与vaspkit配合使用将极大的提高效率。但默认情况下 vaspkit 会安装在用户目录下。如果很多用户都会使用到 vaspkit，那么将其安装在公共目录下更加合适。本文记录了如何在自己的账号中配置 vaspkit。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2022-07-01T06:06:43.000Z">
-<meta property="article:modified_time" content="2022-07-01T06:59:38.971Z">
+<meta property="article:published_time" content="2022-10-15T14:05:22.000Z">
+<meta property="article:modified_time" content="2022-10-15T14:22:21.509Z">
 <meta property="article:author" content="flmore">
 <meta property="article:tag" content="vasp">
+<meta property="article:tag" content="vaspkit">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://flmore.github.io/2022/07/01/WARNING-in-EDDRMM-call-to-ZHEGV-failed-returncode-6-3-9/">
+<link rel="canonical" href="https://flmore.github.io/2022/10/15/vaspkit-config-file-on-The-Huang-Group-HPC/">
 
 
 <script id="page-configurations">
@@ -46,7 +47,7 @@
   };
 </script>
 
-  <title>VASP 错误 WARNING in EDDRMM: call to ZHEGV failed, returncode = 6 3 9 | flmore's blog</title>
+  <title>课题组 HPC 计算服务器 vaspkit 配置 | flmore's blog</title>
   
 
 
@@ -166,7 +167,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://flmore.github.io/2022/07/01/WARNING-in-EDDRMM-call-to-ZHEGV-failed-returncode-6-3-9/">
+    <link itemprop="mainEntityOfPage" href="https://flmore.github.io/2022/10/15/vaspkit-config-file-on-The-Huang-Group-HPC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://flmore-github-io-1306099430.cos.ap-beijing.myqcloud.com/markdown-img/avtar_720x720.jpeg">
@@ -179,7 +180,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          VASP 错误 WARNING in EDDRMM: call to ZHEGV failed, returncode = 6 3 9
+          课题组 HPC 计算服务器 vaspkit 配置
         </h1>
 
         <div class="post-meta">
@@ -190,7 +191,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-01 14:06:43 / Modified: 14:59:38" itemprop="dateCreated datePublished" datetime="2022-07-01T14:06:43+08:00">2022-07-01</time>
+              <time title="Created: 2022-10-15 22:05:22 / Modified: 22:22:21" itemprop="dateCreated datePublished" datetime="2022-10-15T22:05:22+08:00">2022-10-15</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -198,7 +199,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ComputMat/" itemprop="url" rel="index"><span itemprop="name">ComputMat</span></a>
+                  <a href="/categories/%E5%AE%9E%E9%AA%8C%E5%AE%A4/" itemprop="url" rel="index"><span itemprop="name">实验室</span></a>
                 </span>
             </span>
 
@@ -210,7 +211,7 @@
               <span class="post-meta-item-text">Views: </span>
               <span id="busuanzi_value_page_pv"></span>
             </span>
-            <div class="post-description">本文记录了vasp错误输出 EDDRMM: call to ZHEGV failed 的错误原因及解决方案</div>
+            <div class="post-description">vasp与vaspkit配合使用将极大的提高效率。但默认情况下 vaspkit 会安装在用户目录下。如果很多用户都会使用到 vaspkit，那么将其安装在公共目录下更加合适。本文记录了如何在自己的账号中配置 vaspkit。</div>
 
         </div>
       </header>
@@ -221,31 +222,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>使用 <code>vasp</code> 对完全脱锂的镍锰酸锂做结构优化时报错，报错信息为 <code>WARNING in EDDRMM: call to ZHEGV failed, returncode = 6 3 9</code></p>
-<p>INCAR 文件如下</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">Global Parameters</span><br><span class="line">ISTART =  1            (Read existing wavefunction; if there)</span><br><span class="line">ENCUT  =  520       (Cut-off energy for plane wave basis set, in eV)</span><br><span class="line">PREC   =  Normal       (Precision level)</span><br><span class="line">LWAVE  = .FALSE.        (Write WAVECAR or not)</span><br><span class="line">LCHARG = .FALSE.        (Write CHGCAR or not)</span><br><span class="line">ADDGRID= .TRUE.        (Increase grid; helps GGA convergence)</span><br><span class="line">LASPH = .TRUE.</span><br><span class="line">NPAR = 4</span><br><span class="line">ALGO    = FAST</span><br><span class="line">ISPIN    = 2</span><br><span class="line"></span><br><span class="line"># d orbital</span><br><span class="line">LMAXMIX  = 4</span><br><span class="line"></span><br><span class="line"># mag system</span><br><span class="line">AMIX = 0.2</span><br><span class="line">BMIX = 0.0001</span><br><span class="line">AMIX MAG = 0.8</span><br><span class="line">BMIX MAG = 0.0001</span><br><span class="line">LREAL= Auto</span><br><span class="line"></span><br><span class="line">Electronic Relaxation</span><br><span class="line">ISMEAR =  0            (Gaussian smearing; metals:1)</span><br><span class="line">SIGMA  =  0.05         (Smearing value in eV; metals:0.2)</span><br><span class="line">NELM   =  90           (Max electronic SCF steps)</span><br><span class="line">NELMIN =  6            (Min electronic SCF steps)</span><br><span class="line">EDIFF  =  1E-05        (SCF energy convergence; in eV)</span><br><span class="line"># GGA  =  PS           (PBEsol exchange-correlation)</span><br><span class="line"></span><br><span class="line">Ionic Relaxation</span><br><span class="line">NSW    =  500          (Max ionic steps)</span><br><span class="line">IBRION =  2            (Algorithm: 0-MD; 1-Quasi-New; 2-CG)</span><br><span class="line">ISIF   =  3            (Stress/relaxation: 2-Ions, 3-Shape/Ions/V, 4-Shape/Ions)</span><br><span class="line">EDIFFG = -1E-02        (Ionic convergence; eV/AA)</span><br><span class="line"># ISYM =  2            (Symmetry: 0=none; 2=GGA; 3=hybrids)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># GGA+U</span><br><span class="line">LDAU = .TRUE.</span><br><span class="line">LDAUTYPE = 2</span><br><span class="line">LDAUL = 2 2 -1</span><br><span class="line">LDAUU = 4.84 6.00 0.00</span><br><span class="line">LDAUJ = 0.00 0.00 0.00</span><br><span class="line">LDAUPRINT = 2</span><br></pre></td></tr></table></figure>
-<h1 id="错误原因"><a href="#错误原因" class="headerlink" title="错误原因"></a>错误原因</h1><p><code>vasp</code> 官方论坛给出了几种可能的原因</p>
-<blockquote>
-<p>the error is due to a LAPCK call (ZHEGV):<br>ZHEGV computes all the eigenvalues, and optionally, the eigenvectors of a complex generalized Hermitian-definite eigenproblem .<br>there may be several reasons for that error:</p>
-<ol>
-<li><p>the RMM-DIIS diagonalisation algorithm is not stable for your specific setup of the calculation.<br>  —&gt; use ALGO = Normal (blocked Davidson) or ALGO = Fast (5 steps blocked Davidson, RMM-DIIS)</p>
-</li>
-<li><p>a) maybe your input geometry was not reasonable (error occurs at the very first ionic step, please have a look for the geometry data of your run in OUTCAR ) or </p>
-<p>  b) the last ionic relaxation step lead to an unreasonable geometry (compare the input and output geometries of the last ionic relaxation steps in XDATCAR).<br>  In that case (2b) it can be helpful to</p>
-<pre><code>--&gt; switch to a different relaxation algorithm (IBRION-tag)
---&gt; reduce the step size of the first step by setting POTIM smaller than the default value
-</code></pre></li>
-<li><p>The installation of the LAPACK on your machine was not done properly:<br> use the LAPACK which is delivered with the code<br> (vasp.4.lib/lapack_double.o)</p>
-</li>
-<li><p>If the error persist although you switched to the Davidson algorithm:<br> on some architectures (especially SGI) some LAPACK routines are not working properly. However, it is possible to avoid the usage of the ZHEGV subroutine by commenting the line</p>
-<h1 id="define-USE-ZHEEVX"><a href="#define-USE-ZHEEVX" class="headerlink" title="define USE_ZHEEVX"></a>define USE_ZHEEVX</h1><p> in davidson.F, subrot.F, and wavpre_noio.F and recompiling VASP.</p>
-</li>
+        <ol>
+<li>在家目录下新建<code>.vaspkit</code> 文件</li>
 </ol>
-<p><a target="_blank" rel="noopener" href="https://www.vasp.at/forum/viewtopic.php?t=214">https://www.vasp.at/forum/viewtopic.php?t=214</a></p>
-</blockquote>
-<p>大致意思为 <code>RMM-DIIS</code> 算法对于这个体系的计算仍不是很稳定（即 INCAR 中 ALGO 设置为 FAST 导致）；初始结构不太合理；<code>LAPACK</code> 安装有问题。</p>
-<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>主要参考了科音论坛的<a target="_blank" rel="noopener" href="http://bbs.keinsci.com/thread-508-1-1.html">这篇帖子</a> ，把 INCAR 中 <code>ALGO</code> 的值改为 <code>VeryFast</code> 即可。</p>
-<p>修改 INCAR 后重新提交，就没有类似的报错了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.vaspkit</span><br></pre></td></tr></table></figure>
+<ol>
+<li>进入编辑模式，粘贴如下内容：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cp how_to_set_environment_variable ~/.vaspkit and modify the ~/.vaspkit file based on your settings!</span></span><br><span class="line">VASP5                         .TRUE.                         <span class="comment"># .TRUE. or .FALSE.; Set .FALSE. if you are using vasp.4.x</span></span><br><span class="line">LDA_PATH                      ~/POTCAR/LDA                   <span class="comment">#  Path of LDA potential.</span></span><br><span class="line">PBE_PATH                      /opt/vasp/pseudopotential/PAW.PBE.54/                   <span class="comment">#  Path of PBE potential.</span></span><br><span class="line">GGA_PATH                      ~/POTCAR/GGA                   <span class="comment">#  Path of PW91 potential.</span></span><br><span class="line">POTCAR_TYPE                    PBE                           <span class="comment">#  PBE, PW91 or LDA; Set PBE if you want to make PBE-POTCAR file</span></span><br><span class="line">GW_POTCAR                     .FALSE.                        <span class="comment"># .TRUE. or .FALSE.; For example, H_GW, O_GW will be chose when POTCAR_GW = .TRUE.</span></span><br><span class="line">RECOMMENDED_POTCAR            .TRUE.                         <span class="comment"># .TRUE. or .FALSE.; The recommended PAW potential will be chose when RECOMMENDED_POTCAR = .TRUE.</span></span><br><span class="line">SET_FERMI_ENERGY_ZERO         .TRUE.                         <span class="comment"># .TRUE. or .FALSE.; The Fermi Energy will be set to zero eV when SET_FERMI_ENERGY_ZERO = .TRUE.</span></span><br><span class="line">MINI_INCAR                    .FALSE.                        <span class="comment"># .TRUE. or .FALSE.; A simplified INCAR will be written when MINI_INCAR = .TRUE.</span></span><br><span class="line">USER_DEFINED_INCAR            .FALSE.                        <span class="comment"># .TRUE. or .FALSE.; whether to use embedded INCAR templates or user defined INCAR templates</span></span><br><span class="line">WRITE_SELECTIVE_DYNAMICS      .FALSE.                        <span class="comment"># .TRUE. or .FALSE.; whether the selective dymanics set will be forced to write when SET_SELECTIVE_DYNAMICS_MODE = .FALSE.</span></span><br><span class="line">PYTHON_BIN                     /opt/anaconda3/bin/python3       <span class="comment">#  Python executable program with its installation path. I recommend you install anaconda package for Python data science</span></span><br><span class="line">PLOT_MATPLOTLIB               .FALSE.                        <span class="comment"># .TRUE. or .FALSE.; Set .TRUE. if you want to generate Graphs. (Matplotlib and Numpy packages MUST be embedded in Python)</span></span><br><span class="line">VASPKIT_UTILITIES_PATH        /usr/local/vaspkit/utilities            <span class="comment">#  IF ADVANCED_USER is .TRUE., set VASPKIT_UTILITIES_PATH like ~/vaspkit.0.72/utilities in order to use scripts in it.</span></span><br><span class="line">ADVANCED_USER                 .TRUE.                         <span class="comment"># .TRUE. or .FALSE.; Please fill in your settings in the block &#x27;USER_DEFINED&#x27; if you want vaspkit to integrate your own scripts in the &#x27;UTILITIES&#x27; file.</span></span><br><span class="line">SET_INCAR_WRITE_MODE           OVERRIDE                      <span class="comment">#  OVERRIDE, APPEND, BACK-UP-OLD,BACK-UP-NEW;  &quot;Customize INCAR File&quot;  whether to override existing INCAR/appending existing INCAR/backup existing INCAR to INCAR.old &amp;&amp; write into INCAR/write into INCAR.new</span></span><br><span class="line">PHS_CORRECTION                .FALSE.                        <span class="comment"># .TRUE. or .FALSE.; whether to make PHS correction during linear optical calculations. More details on this correction are given in Comput. Mater. Sci. 172 (2020) 109315.</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Reset the default values of variables in here</span></span><br><span class="line">SYMPREC                        1E-5                          <span class="comment"># Distance tolerance in Cartesian coordinates to find crystal symmetry (default value: 1E-5)</span></span><br><span class="line">EMIN                          -20.0                          <span class="comment"># Minimum energy for evaluation of DOS (default value: -20.0 eV)</span></span><br><span class="line">EMAX                           20.0                          <span class="comment"># Maximum energy for evaluation of DOS (default value:  20.0 eV)</span></span><br><span class="line">NEDOS                          2001                          <span class="comment"># Number of grid points in DOS (default value: 2001)</span></span><br><span class="line">GAMMA_CENTERED                .TRUE.                         <span class="comment"># .TRUE. or .FALSE.; (default value: .TRUE.)</span></span><br><span class="line">VACUUM_THICKNESS               15.0                          <span class="comment"># The thickness of vacuum to build slab or 2D materials (default value: 10 angstrom)</span></span><br><span class="line">CENTER_SLAB                   .TRUE.                         <span class="comment"># Center the slab in the z direction; (default value: .TRUE.)</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>保存并退出</li>
+<li>开始愉快地使用<code>vaspkit</code> 做前处理和后处理。</li>
+</ol>
 
     </div>
 
@@ -256,6 +244,7 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/vasp/" rel="tag"># vasp</a>
+              <a href="/tags/vaspkit/" rel="tag"># vaspkit</a>
           </div>
 
         
@@ -264,13 +253,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/06/27/Push-computing-tasks-to-WeChat-through-WxPusher/" rel="prev" title="通过 WxPusher 推送计算任务">
-      <i class="fa fa-chevron-left"></i> 通过 WxPusher 推送计算任务
+    <a href="/2022/10/14/The-Huang-Group-server-pbs-submit-script/" rel="prev" title="课题组计算服务器任务提交脚本">
+      <i class="fa fa-chevron-left"></i> 课题组计算服务器任务提交脚本
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/07/21/vasp-compile-for-vtst/" rel="next" title="VASP 5.4.4 + VTST 编译安装">
-      VASP 5.4.4 + VTST 编译安装 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -329,7 +315,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%94%99%E8%AF%AF%E5%8E%9F%E5%9B%A0"><span class="nav-number">2.</span> <span class="nav-text">错误原因</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#define-USE-ZHEEVX"><span class="nav-number">3.</span> <span class="nav-text">define USE_ZHEEVX</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">4.</span> <span class="nav-text">解决方案</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
