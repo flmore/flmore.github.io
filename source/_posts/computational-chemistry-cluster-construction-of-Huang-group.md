@@ -51,7 +51,11 @@ sudo sed -e 's|^mirrorlist=|#mirrorlist=|g' \
 sudo yum makecache
 ```
 
+更新系统
 
+```bash
+sudo yum update && sudo yum upgrade
+```
 
 ## 网络设置
 
@@ -89,7 +93,7 @@ reboot
 
 # 主机间无密码登录--SSH
 
-以普通用户身份，在管理节点执行一下命令
+以普通用户身份，在管理节点执行以下命令
 
 ```bash
 ssh-keygen
@@ -393,8 +397,7 @@ torque 初始化
 修改计算节点配置文件
 
 ```bash
-vim $TORQUE_HOME/server_priv/nodes
-# TORQUE_HOME具体位置由前面指定
+vim /var/spool/torque/server_priv/nodes
 #填入计算节点 np=核数 队列名， 如
 
 mn1 np=56 batch
