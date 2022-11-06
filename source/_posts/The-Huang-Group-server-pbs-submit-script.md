@@ -27,17 +27,20 @@ VASP提交脚本
 
 # 2. load intel oneapi environment variable
 source /opt/intel/oneapi/setvars.sh intel64 > /dev/null
+export I_MPI_OFFLOAD_DEVICES=0
+export I_MPI_DEBUG=5
+export I_MPI_FABRICS=shm:ofi
 
 # 3. run program
 NP=`cat $PBS_NODEFILE | wc -l`
 cd $PBS_O_WORKDIR
-sed 's/node/ibnode/' $PBS_NODEFILE | uniq &> ibhosts
 
-VASP=/opt/vasp/vasp.5.4.4/bin/vasp_std # set vasp program path
+VASP=/opt/vasp/vasp.5.4.4/bin/vasp_std_intel-oneapi_gcc-11.2.0-avx2 # set vasp program path
+#VASP=/opt/vasp/vasp.5.4.4/bin/vasp_std 
 #VASP=/opt/vasp/vasp.5.4.4/bin/vasp_gam
 #VASP=/opt/vasp/vasp.5.4.4/bin/vasp_ncl
 
-mpirun -np $NP -env I_MPI_OFFLOAD_DEVICES 0 -env I_MPI_DEBUG 5 -env I_MPI_FABRICS shm:ofi -f ./ibhosts  $VASP &> out.log
+mpirun -np $NP $VASP &> out.log
 
 ```
 
