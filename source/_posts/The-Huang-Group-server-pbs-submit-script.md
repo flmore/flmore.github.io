@@ -7,7 +7,15 @@ categories: ["实验室"]
 description: 本文记录了课题组服务器集群的任务提交脚本，方便大家取用。
 ---
 
-VASP提交脚本
+# VASP提交脚本
+
+在任务目录新建提交脚本
+
+```bash
+vim job.pbs
+```
+
+粘贴以下内容
 
 ```bash
 #!/bin/bash
@@ -42,5 +50,49 @@ VASP=/opt/vasp/vasp.5.4.4/bin/vasp_std_intel-oneapi_gcc-11.2.0-avx2 # set vasp p
 
 mpirun -np $NP $VASP &> out.log
 
+```
+
+# GAUSSIAN提交脚本
+
+在任务目录新建提交脚本
+
+```bash
+vim job.pbs
+```
+
+粘贴以下内容
+
+```bash
+#!/bin/bash
+#PBS -N Gaussian
+#PBS -o job.log
+#PBS -e err.log
+#PBS -l nodes=1:ppn=24
+#PBS -l walltime=30:00:00
+#PBS -l mem=96000mb
+#PBS -q batch
+#PBS -j oe
+
+# this script is used to submit gaussian tasks
+# created time: 2021.11.24
+# edit by flmore
+# ref url: http://bbs.keinsci.com/thread-22162-1-1.html
+
+# run on AMD CPU
+export PGI_FASTMATH_CPU=sandybridge
+
+cd $PBS_O_WORKDIR
+
+# run g16 program
+for inf in *.gjf
+do
+    echo $inf
+    g16 $inf
+    wait
+    formchk ${inf%.gjf}.chk
+done &> out.log
+
+# Delete Temporary Files to Reduce Hard Disk Usage
+rm -rf $HOME/.g16/scratch/*
 ```
 
