@@ -4,7 +4,7 @@ toc: true
 date: 2022-10-14 18:51:49
 tags: ["vasp", "pbs"]
 categories: ["实验室"]
-description: 本文记录了课题组服务器 HPC 主机的任务提交脚本，方便大家取用。
+description: 本文记录了课题组服务器集群的任务提交脚本，方便大家取用。
 ---
 
 VASP提交脚本
