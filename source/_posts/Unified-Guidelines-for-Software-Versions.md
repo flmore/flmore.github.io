@@ -15,7 +15,7 @@ description: 为了提高组内沟通效率，减少因软件版本不同导致�
 
 软件安装步骤参考[我校正版化软件平台](https://software.cup.edu.cn/soft/detail/24#knowledge)
 
-安装包下载地址
+[安装包下载地址](http://202.204.193.23/Office_2021_LTSC_Pro_Plus_x64_zh.iso)
 
 # 数据处理及可视化软件
 
