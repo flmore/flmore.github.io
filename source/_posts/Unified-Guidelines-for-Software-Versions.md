@@ -15,7 +15,7 @@ description: 为了提高组内沟通效率，减少因软件版本不同导致�
 
 软件安装步骤参考[我校正版化软件平台](https://software.cup.edu.cn/soft/detail/24#knowledge)
 
-[安装包下载地址](http://202.204.193.23/Office_2021_LTSC_Pro_Plus_x64_zh.iso)
+[安装包下载地址](http://202.204.193.23/Office_2021_LTSC_Pro_Plus_x64_zh.iso)(复制链接后手动在新标签页打开)
 
 # 数据处理及可视化软件
 
@@ -27,7 +27,7 @@ description: 为了提高组内沟通效率，减少因软件版本不同导致�
 
 软件安装步骤参考[微信文章](https://mp.weixin.qq.com/s/7R3uP0n7DtZszrLPfsExmA) (序列号：DF2W8-9089-7991320)
 
-[安装包下载地址](https://fileshare.flmore.top/d/PACKAGES/07.DrawAnalyse/origin-pro-2019b.zip)
+[安装包下载地址](https://fileshare.flmore.top/d/PACKAGES/07.DrawAnalyse/origin-pro-2019b.zip)(复制链接后手动在新标签页打开)
 
 ## Jade
 
@@ -37,13 +37,13 @@ description: 为了提高组内沟通效率，减少因软件版本不同导致�
 
 安装步骤参考[知乎文章](https://zhuanlan.zhihu.com/p/419889013)
 
-[安装包下载地址](https://fileshare.flmore.top/d/PACKAGES/07.DrawAnalyse/jade6.5.zip)
+[安装包下载地址](https://fileshare.flmore.top/d/PACKAGES/07.DrawAnalyse/jade6.5.zip)(复制链接后手动在新标签页打开)
 
 ## HSC
 
 统一使用 **HSC 6 版本**
 
-[安装包下载地址](https://fileshare.flmore.top/d/PACKAGES/07.DrawAnalyse/HSC%20Chemistry%206.zip)
+[安装包下载地址](https://fileshare.flmore.top/d/PACKAGES/07.DrawAnalyse/HSC%20Chemistry%206.zip)(复制链接后手动在新标签页打开)
 
 # 作图及文献管理软件
 
@@ -55,7 +55,7 @@ description: 为了提高组内沟通效率，减少因软件版本不同导致�
 
 安装步骤参考[微信文章](https://mp.weixin.qq.com/s/vcxuny13C9n4yorc-YLMQQ)
 
-[安装包下载地址](https://fileshare.flmore.top/d/PACKAGES/07.DrawAnalyse/ChemOffice%202018.rar)
+[安装包下载地址](https://fileshare.flmore.top/d/PACKAGES/07.DrawAnalyse/ChemOffice%202018.rar)(复制链接后手动在新标签页打开)
 
 ## Draw.io
 
@@ -73,4 +73,4 @@ EndNote 是我们管理参考文献必备的利器，在引用参考文献的时
 
 软件安装步骤参考[这篇文章](https://cloud.tencent.com/developer/news/356618)
 
-[安装包下载地址](https://fileshare.flmore.top/d/PACKAGES/08.RefManage/EndNote_X9.zip)
+[安装包下载地址](https://fileshare.flmore.top/d/PACKAGES/08.RefManage/EndNote_X9.zip)(复制链接后手动在新标签页打开)
