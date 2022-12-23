@@ -44,9 +44,10 @@ NP=`cat $PBS_NODEFILE | wc -l`
 cd $PBS_O_WORKDIR
 
 VASP=/opt/vasp/vasp.5.4.4/bin/vasp_std_intel-oneapi_gcc-11.2.0-avx2 # set vasp program path
-#VASP=/opt/vasp/vasp.5.4.4/bin/vasp_std 
-#VASP=/opt/vasp/vasp.5.4.4/bin/vasp_gam
-#VASP=/opt/vasp/vasp.5.4.4/bin/vasp_ncl
+#VASP=/opt/vasp/vasp.5.4.4/bin/vasp_gam_intel-oneapi_gcc-11.2.0-avx2
+#VASP=/opt/vasp/vasp.5.4.4/bin/vasp_ncl_intel-oneapi_gcc-11.2.0-avx2
+#VASP=/opt/vasp/vasp.5.4.4_vtst/bin/vasp_std_vtst_intel-oneapi_gcc-11.2.0-avx2 # for CI-NEB Calc.
+
 
 mpirun -np $NP $VASP &> out.log
 
