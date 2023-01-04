@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"flmore.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本文记录了在虚拟机上部署slurm的过程，为今后在物理机上升级队列系统提供了参考。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="集群上源码编译部署slurm过程记录">
+<meta property="og:url" content="https://flmore.github.io/2023/f9e048fd.html">
+<meta property="og:site_name" content="flmore&#39;s blog">
+<meta property="og:description" content="本文记录了在虚拟机上部署slurm的过程，为今后在物理机上升级队列系统提供了参考。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-01-04T22:12:29.000Z">
+<meta property="article:modified_time" content="2023-01-04T22:12:29.000Z">
+<meta property="article:author" content="flmore">
+<meta property="article:tag" content="cluster">
+<meta property="article:tag" content="slurm">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://flmore.github.io/2023/f9e048fd.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>集群上源码编译部署slurm过程记录 | flmore's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">flmore's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-gallery">
+
+    <a href="/gallery/" rel="section"><i class="fas fa-camera-retro fa-fw"></i>gallery</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://flmore.github.io/2023/f9e048fd.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://flmore-github-io-1306099430.cos.ap-beijing.myqcloud.com/markdown-img/avtar_720x720.jpeg">
+      <meta itemprop="name" content="flmore">
+      <meta itemprop="description" content="记录生活，记录成长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="flmore's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          集群上源码编译部署slurm过程记录
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-01-04 22:12:29" itemprop="dateCreated datePublished" datetime="2023-01-04T22:12:29+00:00">2023-01-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AE%9E%E9%AA%8C%E5%AE%A4/" itemprop="url" rel="index"><span itemprop="name">实验室</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <div class="post-description">本文记录了在虚拟机上部署slurm的过程，为今后在物理机上升级队列系统提供了参考。</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install git build-essential libssl-dev libmysql++-dev ffmpeg python3-pip openssh-server cmake -y</span><br></pre></td></tr></table></figure>
+<h2 id="安装mysql-server"><a href="#安装mysql-server" class="headerlink" title="安装mysql-server"></a>安装<code>mysql-server</code></h2><p>To add the MySQL APT repository to your system go to the repository <a target="_blank" rel="noopener" href="https://dev.mysql.com/downloads/repo/apt/">download</a> page and download the latest release package using the following command.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://dev.mysql.com/get/mysql-apt-config_0.8.24-1_all.deb</span><br></pre></td></tr></table></figure>
+<p>Install the release package.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install ./mysql-apt-config_0.8.24-1_all.deb</span><br></pre></td></tr></table></figure>
+<p>We’re going to install MySQL version 8.0. Select OK by pressing Tab and hit Enter (as shown in the image above).</p>
+<p>Now you can install MySQL.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install mysql-server</span><br></pre></td></tr></table></figure>
+<p>Once the installation is completed, the MySQL service will start automatically. To verify that the MySQL server is running, type:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl status mysql</span><br></pre></td></tr></table></figure>
+<p>The output should show that the service is enabled and running:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">● mysql.service - MySQL Community Server</span><br><span class="line">     Loaded: loaded (/lib/systemd/system/mysql.service; enabled; vendor preset: enabled)</span><br><span class="line">     Active: active (running) since Wed 2023-01-04 18:31:50 CST; 22s ago</span><br><span class="line">       Docs: man:mysqld(8)</span><br><span class="line">             http://dev.mysql.com/doc/refman/en/using-systemd.html</span><br><span class="line">   Main PID: 33914 (mysqld)</span><br><span class="line">     Status: <span class="string">&quot;Server is operational&quot;</span></span><br><span class="line">      Tasks: 39 (<span class="built_in">limit</span>: 4674)</span><br><span class="line">     Memory: 364.1M</span><br><span class="line">        CPU: 1.109s</span><br><span class="line">     CGroup: /system.slice/mysql.service</span><br><span class="line">             └─33914 /usr/sbin/mysqld</span><br><span class="line"></span><br><span class="line">Jan 04 18:31:49 debian systemd[1]: Starting MySQL Community Server...</span><br><span class="line">Jan 04 18:31:50 debian systemd[1]: Started MySQL Community Server.</span><br></pre></td></tr></table></figure>
+<h2 id="编译munge"><a href="#编译munge" class="headerlink" title="编译munge"></a>编译<code>munge</code></h2><p>github 发布地址 <a target="_blank" rel="noopener" href="https://github.com/dun/munge/releases">Releases · dun/munge</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/dun/munge/releases/download/munge-0.5.15/munge-0.5.15.tar.xz</span><br><span class="line">tar xf ./muge-0.5.15.tar.xz &amp;&amp; <span class="built_in">cd</span> muge-0.5.15.tar.xz</span><br><span class="line">./configure --prefix=/usr/local/munge/0.5.15</span><br><span class="line">make &amp;&amp; sudo make install</span><br><span class="line"><span class="built_in">cd</span> /usr/local/munge &amp;&amp; sudo <span class="built_in">ln</span> -s 0.5.15 latest &amp;&amp; <span class="built_in">cd</span> - &amp;&amp; <span class="built_in">cd</span> ..</span><br></pre></td></tr></table></figure>
+<p>配置环境变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">cat</span>&gt;/etc/profile.d/munge.sh&lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">export MUNGE_HOME=/usr/local/munge/latest</span></span><br><span class="line"><span class="string">export PATH=\$MUNGE_HOME/bin:\$PATH</span></span><br><span class="line"><span class="string">export PATH=\$MUNGE_HOME/sbin:\$PATH</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure>
+<h2 id="编译pmix"><a href="#编译pmix" class="headerlink" title="编译pmix"></a>编译<code>pmix</code></h2><p>编译<code>pmix</code> 之前，还须编译<code>hwloc</code> 和 <code>libevent</code> 。</p>
+<h3 id="编译hwloc"><a href="#编译hwloc" class="headerlink" title="编译hwloc"></a>编译<code>hwloc</code></h3><p><a target="_blank" rel="noopener" href="https://www.open-mpi.org/software/hwloc/v2.8/">Portable Hardware Locality (hwloc): Version 2.8 (open-mpi.org)</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget https://download.open-mpi.org/release/hwloc/v2.8/hwloc-2.8.0.tar.gz &amp;&amp; \\</span><br><span class="line">tar zxf hwloc-2.8.0.tar.gz &amp;&amp; <span class="built_in">cd</span> hwloc-2.8.0 &amp;&amp; \\</span><br><span class="line">./configure --prefix=/usr/local/hwloc/2.8.0 &amp;&amp; \\</span><br><span class="line">make &amp;&amp; sudo make install &amp;&amp; \\</span><br><span class="line"><span class="built_in">cd</span> /usr/local/hwloc &amp;&amp; sudo <span class="built_in">ln</span> -s 2.8.0 latest &amp;&amp; <span class="built_in">cd</span> - &amp;&amp; <span class="built_in">cd</span> .. &amp;&amp; <span class="built_in">ls</span> &amp;&amp; \\</span><br></pre></td></tr></table></figure>
+<p>配置环境变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">cat</span>&gt;/etc/profile.d/hwloc.sh&lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">export HWLOC_HOME=/usr/local/hwloc/latest</span></span><br><span class="line"><span class="string">export PATH=\$HWLOC_HOME/bin:\$PATH</span></span><br><span class="line"><span class="string">export PATH=\$HWLOC_HOME/sbin:\$PATH</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure>
+<h3 id="编译libevent"><a href="#编译libevent" class="headerlink" title="编译libevent"></a>编译<code>libevent</code></h3><p><a target="_blank" rel="noopener" href="https://github.com/libevent/libevent/releases">Releases · libevent/libevent (github.com)</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz &amp;&amp; \\</span><br><span class="line">tar zxf libevent-2.1.12-stable.tar.gz &amp;&amp; <span class="built_in">cd</span> libevent-2.1.12-stable &amp;&amp; \\</span><br><span class="line">./configure --prefix=/usr/local/libevent/2.1.12 &amp;&amp; \\</span><br><span class="line">make &amp;&amp; sudo make install &amp;&amp; \\</span><br><span class="line"><span class="built_in">cd</span> /usr/local/libevent &amp;&amp; sudo <span class="built_in">ln</span> -s 2.1.12 latest &amp;&amp; <span class="built_in">cd</span> - &amp;&amp; <span class="built_in">cd</span> .. &amp;&amp; <span class="built_in">ls</span> &amp;&amp; \\</span><br></pre></td></tr></table></figure>
+<p>配置环境变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">cat</span>&gt;/etc/profile.d/libevent.sh&lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">export LIBEVENT_HOME=/usr/local/libevent/latest</span></span><br><span class="line"><span class="string">export PATH=\$LIBEVENT_HOME/bin:\$PATH</span></span><br><span class="line"><span class="string">export LD_LIBRARY_PATH=\$LIBEVENT_HOME/lib:\$LD_LIBRARY_PATH</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure>
+<h3 id="编译-pmix"><a href="#编译-pmix" class="headerlink" title="编译 pmix"></a>编译 <code>pmix</code></h3><p><a target="_blank" rel="noopener" href="https://github.com/openpmix/openpmix/releases">Releases · openpmix/openpmix (github.com)</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/openpmix/openpmix/releases/download/v4.2.2/pmix-4.2.2.tar.gz &amp;&amp; \\</span><br><span class="line">tar zxf pmix-4.2.2.tar.gz &amp;&amp; <span class="built_in">cd</span> pmix-4.2.2 &amp;&amp; \\</span><br><span class="line">./configure --prefix=/usr/local/pmix/4.2.2  --with-libevent=/usr/local/libevent/latest --with-hwloc=/usr/local/hwloc/latest &amp;&amp; \\</span><br><span class="line">make &amp;&amp; sudo make install &amp;&amp; \\</span><br><span class="line"><span class="built_in">cd</span> /usr/local/pmix &amp;&amp; sudo <span class="built_in">ln</span> -s 4.2.2 latest &amp;&amp; <span class="built_in">cd</span> - &amp;&amp; <span class="built_in">cd</span> .. &amp;&amp; <span class="built_in">ls</span> &amp;&amp; \\</span><br></pre></td></tr></table></figure>
+<p>设置环境变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">cat</span>&gt;/etc/profile.d/pmix.sh&lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">export PMIX_HOME=/usr/local/pmix/latest</span></span><br><span class="line"><span class="string">export PATH=\$PMIX_HOME/bin:\$PATH</span></span><br><span class="line"><span class="string">export LD_LIBRARY_PATH=\$PMIX_HOME/lib:\$LD_LIBRARY_PATH</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure>
+<h1 id="编译openmpi"><a href="#编译openmpi" class="headerlink" title="编译openmpi"></a>编译<code>openmpi</code></h1><p><code>slurm</code> 和 <code>openmpi</code> 均需依赖 <code>ucx</code>，因此需要先安装<code>ucx</code>。</p>
+<h2 id="编译ucx"><a href="#编译ucx" class="headerlink" title="编译ucx"></a>编译<code>ucx</code></h2><p><a target="_blank" rel="noopener" href="https://github.com/openucx/ucx/releases">Releases · openucx/ucx (github.com)</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/openucx/ucx/releases/download/v1.13.1/ucx-1.13.1.tar.gz &amp;&amp; \\</span><br><span class="line">tar zxf ucx-1.13.1.tar.gz &amp;&amp; <span class="built_in">cd</span> ucx-1.13.1 &amp;&amp; \\</span><br><span class="line">./configure --prefix=/usr/local/ucx/1.13.1 &amp;&amp; \\</span><br><span class="line">make &amp;&amp; sudo make install &amp;&amp; \\ </span><br><span class="line"><span class="comment"># 直接编译会有 no go file 错误，需将github仓库中的 bindings目录复制下来替换即可成功编译</span></span><br><span class="line"><span class="built_in">cd</span> /usr/local/ucx &amp;&amp; sudo <span class="built_in">ln</span> -s 1.13.1 latest &amp;&amp; <span class="built_in">cd</span> - &amp;&amp; <span class="built_in">cd</span> .. &amp;&amp; <span class="built_in">ls</span> &amp;&amp; \\</span><br></pre></td></tr></table></figure>
+<p>配置环境变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">cat</span>&gt;/etc/profile.d/ucx.sh&lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">export UCX_HOME=/usr/local/ucx/latest</span></span><br><span class="line"><span class="string">export PATH=\$UCX_HOME/bin:\$PATH</span></span><br><span class="line"><span class="string">export LD_LIBRARY_PATH=\$UCX_HOME/lib:\$LD_LIBRARY_PATH</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure>
+<h2 id="编译openmpi-1"><a href="#编译openmpi-1" class="headerlink" title="编译openmpi"></a>编译<code>openmpi</code></h2><p><a target="_blank" rel="noopener" href="https://www.open-mpi.org/software/ompi/v4.1/">Open MPI: Version 4.1 (open-mpi.org)</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.4.tar.gz &amp;&amp; \\</span><br><span class="line">tar zxf openmpi-4.1.4.tar.gz &amp;&amp; <span class="built_in">cd</span> openmpi-4.1.4 &amp;&amp; \\</span><br><span class="line">./configure --prefix=/usr/local/openmpi/4.1.4 --with-pmix=/usr/local/pmix/latest --with-ucx=/usr/local/ucx/latest --with-hwloc=/usr/local/hwloc/latest --with-libevent=/usr/local/libevent/latest &amp;&amp; \\</span><br><span class="line">make &amp;&amp; sudo make install &amp;&amp; \\</span><br><span class="line"><span class="built_in">cd</span> /usr/local/openmpi &amp;&amp; sudo <span class="built_in">ln</span> -s 4.1.4 latest &amp;&amp; <span class="built_in">cd</span> - &amp;&amp; <span class="built_in">cd</span> .. &amp;&amp; <span class="built_in">ls</span> &amp;&amp; \\</span><br></pre></td></tr></table></figure>
+<p>配置环境变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">cat</span>&gt;/etc/profile.d/openmpi.sh&lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">export OPENMPI_HOME=/usr/local/openmpi/latest</span></span><br><span class="line"><span class="string">export PATH=\$OPENMPI_HOME/bin:\$PATH</span></span><br><span class="line"><span class="string">export LD_LIBRARY_PATH=\$OPENMPI_HOME/lib:\$LD_LIBRARY_PATH</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure>
+<h1 id="编译slurm"><a href="#编译slurm" class="headerlink" title="编译slurm"></a>编译<code>slurm</code></h1><p><a target="_blank" rel="noopener" href="https://download.schedmd.com/slurm/">Index of /slurm (schedmd.com)</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget https://download.schedmd.com/slurm/slurm-22.05.7.tar.bz2 &amp;&amp; \\</span><br><span class="line">tar xf slurm-22.05.7.tar.bz2 &amp;&amp; <span class="built_in">cd</span> slurm-22.05.7 &amp;&amp; \\</span><br><span class="line">./configure --prefix=/usr/local/slurm/22.05.7 --with-pmix=/usr/local/pmix/latest --with-munge=/usr/local/munge/latest --with-hwloc=/usr/local/hwloc/latest --with-ucx=/usr/local/ucx/latest &amp;&amp; \\</span><br><span class="line">make &amp;&amp; sudo make install &amp;&amp; \\</span><br><span class="line"><span class="built_in">cd</span> /usr/local/slurm &amp;&amp; sudo <span class="built_in">ln</span> -s 22.05.7 latest &amp;&amp; <span class="built_in">cd</span> - &amp;&amp; <span class="built_in">cd</span> .. &amp;&amp; <span class="built_in">ls</span> &amp;&amp; \\</span><br></pre></td></tr></table></figure>
+<p>配置环境变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">cat</span>&gt;/etc/profile.d/slurm.sh&lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">export SLURM_HOME=/usr/local/slurm/latest</span></span><br><span class="line"><span class="string">export PATH=\$SLURM_HOME/bin:\$PATH</span></span><br><span class="line"><span class="string">export PATH=\$SLURM_HOME/sbin:\$PATH</span></span><br><span class="line"><span class="string">export LD_LIBRARY_PATH=\$SLURM_HOME/lib:\$LD_LIBRARY_PATH</span></span><br><span class="line"><span class="string">export LD_LIBRARY_PATH=\$SLURM_HOME/lib/slurm:\$LD_LIBRARY_PATH</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] <a target="_blank" rel="noopener" href="https://www.cloudbooklet.com/how-to-install-mysql-on-debian-11/">How to Install MySQL on Debian 11 (cloudbooklet.com)</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://yuhldr.github.io/posts/bfa79f01.html">slurm集群安装与踩坑详解 | 我是谁 (yuhldr.github.io)</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/cluster/" rel="tag"># cluster</a>
+              <a href="/tags/slurm/" rel="tag"># slurm</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/a41ee46f.html" rel="prev" title="在个人服务器上部署Overleaf">
+      <i class="fa fa-chevron-left"></i> 在个人服务器上部署Overleaf
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="nav-number">1.</span> <span class="nav-text">安装依赖</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85mysql-server"><span class="nav-number">1.1.</span> <span class="nav-text">安装mysql-server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91munge"><span class="nav-number">1.2.</span> <span class="nav-text">编译munge</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91pmix"><span class="nav-number">1.3.</span> <span class="nav-text">编译pmix</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%AF%91hwloc"><span class="nav-number">1.3.1.</span> <span class="nav-text">编译hwloc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%AF%91libevent"><span class="nav-number">1.3.2.</span> <span class="nav-text">编译libevent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%AF%91-pmix"><span class="nav-number">1.3.3.</span> <span class="nav-text">编译 pmix</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%96%E8%AF%91openmpi"><span class="nav-number">2.</span> <span class="nav-text">编译openmpi</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91ucx"><span class="nav-number">2.1.</span> <span class="nav-text">编译ucx</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91openmpi-1"><span class="nav-number">2.2.</span> <span class="nav-text">编译openmpi</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%96%E8%AF%91slurm"><span class="nav-number">3.</span> <span class="nav-text">编译slurm</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="flmore"
+      src="https://flmore-github-io-1306099430.cos.ap-beijing.myqcloud.com/markdown-img/avtar_720x720.jpeg">
+  <p class="site-author-name" itemprop="name">flmore</p>
+  <div class="site-description" itemprop="description">记录生活，记录成长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">flmore</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -20,19 +20,20 @@
     var CONFIG = {"hostname":"flmore.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="记录生活，记录成长">
-<meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="https://flmore.github.io/categories/index.html">
+  <meta name="description" content="vasp 的输出结果通常包含很多文件，这些文件占用了大量硬盘空间，做完分析后我们可以将这些文件删除来节省空间，本文记录了快速删除这些文件的命令。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一行命令删除 VASP 输出文件">
+<meta property="og:url" content="https://flmore.github.io/2022/fe1da496.html">
 <meta property="og:site_name" content="flmore&#39;s blog">
-<meta property="og:description" content="记录生活，记录成长">
+<meta property="og:description" content="vasp 的输出结果通常包含很多文件，这些文件占用了大量硬盘空间，做完分析后我们可以将这些文件删除来节省空间，本文记录了快速删除这些文件的命令。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2022-06-05T12:42:38.000Z">
-<meta property="article:modified_time" content="2023-01-04T15:06:53.694Z">
+<meta property="article:published_time" content="2022-09-30T08:17:47.000Z">
+<meta property="article:modified_time" content="2022-09-30T08:17:47.000Z">
 <meta property="article:author" content="flmore">
+<meta property="article:tag" content="vasp">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://flmore.github.io/categories/">
+<link rel="canonical" href="https://flmore.github.io/2022/fe1da496.html">
 
 
 <script id="page-configurations">
@@ -40,13 +41,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'en'
   };
 </script>
 
-  <title>categories | flmore's blog
-</title>
+  <title>一行命令删除 VASP 输出文件 | flmore's blog</title>
   
 
 
@@ -158,51 +158,103 @@
       <div class="main-inner">
         <div class="content-wrap">
           
-  
-  
 
-          <div class="content page posts-expand">
+          <div class="content post posts-expand">
             
 
     
-    
-    
-    <div class="post-block" lang="en">
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://flmore.github.io/2022/fe1da496.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://flmore-github-io-1306099430.cos.ap-beijing.myqcloud.com/markdown-img/avtar_720x720.jpeg">
+      <meta itemprop="name" content="flmore">
+      <meta itemprop="description" content="记录生活，记录成长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="flmore's blog">
+    </span>
       <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          一行命令删除 VASP 输出文件
+        </h1>
 
-<h1 class="post-title" itemprop="name headline">categories
-</h1>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
 
-<div class="post-meta">
+              <time title="Created: 2022-09-30 08:17:47" itemprop="dateCreated datePublished" datetime="2022-09-30T08:17:47+00:00">2022-09-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/software/" itemprop="url" rel="index"><span itemprop="name">software</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <div class="post-description">vasp 的输出结果通常包含很多文件，这些文件占用了大量硬盘空间，做完分析后我们可以将这些文件删除来节省空间，本文记录了快速删除这些文件的命令。</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="命令内容"><a href="#命令内容" class="headerlink" title="命令内容"></a>命令内容</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rm</span> -f CHG* CONTCAR* DOSCAR* DYNMAT EIGENVAL IBZKPT OPTIC OSZICAR* OUTCAR* PROCAR* \</span><br><span class="line">      PCDAT W* XDATCAR* PARCHG* vasprun.xml SUMMARY.* REPORT \</span><br><span class="line">      wannier90.win wannier90_band.gnu wannier90_band.kpt wannier90.chk wannier90.wout \</span><br><span class="line">      *.dat plotfile p4vasp.log \</span><br><span class="line">      *.e[0-9]* *.o[0-9]* *.pe[0-9]* *.po[0-9]* *.err *.out</span><br></pre></td></tr></table></figure>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p><a target="_blank" rel="noopener" href="https://www.vasp.at/">https://www.vasp.at/</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/vasp/" rel="tag"># vasp</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/c797f846.html" rel="prev" title="VASP 5.4.4 + VTST 编译安装">
+      <i class="fa fa-chevron-left"></i> VASP 5.4.4 + VTST 编译安装
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/7e27e90d.html" rel="next" title="过渡态方法计算材料扩散系数">
+      过渡态方法计算材料扩散系数 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
-</div>
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
-          <div class="category-all-page">
-            <div class="category-all-title">
-              5 categories in total
-            </div>
-            <div class="category-all">
-              <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ComputMat/">ComputMat</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/build-blog-pages/">build blog pages</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/software/">software</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AE%9E%E9%AA%8C%E5%AE%A4/">实验室</a><span class="category-list-count">7</span></li></ul>
-            </div>
-          </div>
-        
-      </div>
-      
-      
-      
-    </div>
-    
-
-    
-    
-    
 
 
           </div>
@@ -253,6 +305,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E5%86%85%E5%AE%B9"><span class="nav-number">1.</span> <span class="nav-text">命令内容</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">2.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

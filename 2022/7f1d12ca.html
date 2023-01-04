@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"flmore.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="之前使用发邮件的方式来推送计算任务。但这种方式配置比较繁琐，接收端还需要打开邮件查看的时间成本。最近发现了 WxPusher 这个信息推送工具，配置简单，可以将信息直接发送到微信上，这篇文章记录了配置过程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过 WxPusher 推送计算任务">
+<meta property="og:url" content="https://flmore.github.io/2022/7f1d12ca.html">
+<meta property="og:site_name" content="flmore&#39;s blog">
+<meta property="og:description" content="之前使用发邮件的方式来推送计算任务。但这种方式配置比较繁琐，接收端还需要打开邮件查看的时间成本。最近发现了 WxPusher 这个信息推送工具，配置简单，可以将信息直接发送到微信上，这篇文章记录了配置过程。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://flmore-github-io-1306099430.cos.ap-beijing.myqcloud.com/markdown-img/wxpusher-send-msg-sample.webp">
+<meta property="article:published_time" content="2022-06-27T09:42:10.000Z">
+<meta property="article:modified_time" content="2022-06-27T09:42:10.000Z">
+<meta property="article:author" content="flmore">
+<meta property="article:tag" content="WxPusher">
+<meta property="article:tag" content="python script">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://flmore-github-io-1306099430.cos.ap-beijing.myqcloud.com/markdown-img/wxpusher-send-msg-sample.webp">
+
+<link rel="canonical" href="https://flmore.github.io/2022/7f1d12ca.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>通过 WxPusher 推送计算任务 | flmore's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">flmore's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-gallery">
+
+    <a href="/gallery/" rel="section"><i class="fas fa-camera-retro fa-fw"></i>gallery</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://flmore.github.io/2022/7f1d12ca.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://flmore-github-io-1306099430.cos.ap-beijing.myqcloud.com/markdown-img/avtar_720x720.jpeg">
+      <meta itemprop="name" content="flmore">
+      <meta itemprop="description" content="记录生活，记录成长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="flmore's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          通过 WxPusher 推送计算任务
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-06-27 09:42:10" itemprop="dateCreated datePublished" datetime="2022-06-27T09:42:10+00:00">2022-06-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ComputMat/" itemprop="url" rel="index"><span itemprop="name">ComputMat</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <div class="post-description">之前使用发邮件的方式来推送计算任务。但这种方式配置比较繁琐，接收端还需要打开邮件查看的时间成本。最近发现了 WxPusher 这个信息推送工具，配置简单，可以将信息直接发送到微信上，这篇文章记录了配置过程。</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>当服务器计算任务完成之后，为了让我们能够及时收到任务信息，可以使用 <a target="_blank" rel="noopener" href="https://wxpusher.zjiecode.com/docs/#/">WxPusher</a> 等工具来推送消息。</p>
+<h1 id="WxPusher-管理后台配置"><a href="#WxPusher-管理后台配置" class="headerlink" title="WxPusher 管理后台配置"></a>WxPusher 管理后台配置</h1><p>我们首先需要在 <code>WxPusher</code> 的管理后台进行配置，主要步骤如下：</p>
+<ul>
+<li>在<a target="_blank" rel="noopener" href="https://wxpusher.zjiecode.com/admin/main">后台管理</a>中注册应用，获得 <code>appToken</code></li>
+<li>新建主题，需要接收推送消息的人扫码订阅，获取接收者 <code>UID</code></li>
+<li>使用 api 接入，发送 <code>get</code> 或者 <code>post</code> 消息即可</li>
+</ul>
+<p>详细过程见<a target="_blank" rel="noopener" href="https://wxpusher.zjiecode.com/docs/#/?id=快速接入">官方文档</a> ，在此不再赘述。</p>
+<p>配置完成后，我们需要获取的必要信息为：<strong>appToken</strong>、<strong>UID</strong>。</p>
+<h1 id="Python-脚本调用-WxPusher"><a href="#Python-脚本调用-WxPusher" class="headerlink" title="Python 脚本调用 WxPusher"></a><del>Python 脚本调用 WxPusher</del></h1><p><strong>实际使用过程中该脚本还存在问题，对于某些任务完成后并不会推送，有待进一步修正</strong></p>
+<p>python 脚本如下，将以下内容写入 <code>wxpusher_notification.py</code> ，在对应位置替换你自己的 <code>appToken</code> 和 <code>UID</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#! /usr/bin/env python</span></span><br><span class="line"><span class="comment"># coding utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_current_jobid</span>():</span><br><span class="line">    id_content = os.popen(<span class="string">&quot;qstat&quot;</span>).read()</span><br><span class="line">    pattern = re.<span class="built_in">compile</span>(<span class="string">r&#x27;^\d&#123;1,&#125;.hpc&#x27;</span>, re.MULTILINE) <span class="comment"># hpc is the server&#x27;s hostname</span></span><br><span class="line">    result = pattern.findall(id_content)</span><br><span class="line">    pending_jobid = [ re.findall(<span class="string">&quot;^\d+&quot;</span>,i)[<span class="number">0</span>] <span class="keyword">for</span> i <span class="keyword">in</span> result ]</span><br><span class="line">    <span class="keyword">for</span> jobid <span class="keyword">in</span> pending_jobid:</span><br><span class="line">        current_dir = os.getcwd()</span><br><span class="line">        jobdetail_info = os.popen(<span class="string">&quot;qstat -f &quot;</span> + <span class="built_in">str</span>(jobid)).read()</span><br><span class="line">        pattern = re.<span class="built_in">compile</span>(current_dir)</span><br><span class="line">        <span class="keyword">if</span> re.search(pattern,<span class="built_in">str</span>(jobdetail_info)):</span><br><span class="line">            <span class="keyword">return</span> jobid</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_job_detail_info</span>(<span class="params">jobid, jobinfodic</span>):</span><br><span class="line">    query_lst = [<span class="string">&quot;Job_Name&quot;</span>, <span class="string">&quot;job_state&quot;</span>, <span class="string">&quot;total_runtime&quot;</span>]</span><br><span class="line">    os.system(<span class="string">&quot;qstat -f &quot;</span> + <span class="built_in">str</span>(jobid) + <span class="string">&quot; &gt; job_info.log&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> <span class="built_in">open</span>(<span class="string">&#x27;job_info.log&#x27;</span>):</span><br><span class="line">        <span class="keyword">if</span> query_lst[<span class="number">0</span>] <span class="keyword">in</span> line:</span><br><span class="line">            jobname = line.split(<span class="string">&quot;=&quot;</span>)[<span class="number">1</span>].strip()</span><br><span class="line">            jobinfodic[<span class="string">&quot;jobname&quot;</span>] = jobname</span><br><span class="line">        <span class="keyword">elif</span> query_lst[<span class="number">1</span>] <span class="keyword">in</span> line:</span><br><span class="line">            jobstate = line.split(<span class="string">&quot;=&quot;</span>)[<span class="number">1</span>].strip()</span><br><span class="line">            jobinfodic[<span class="string">&quot;jobstate&quot;</span>] = jobstate</span><br><span class="line"><span class="comment">#         elif query_lst[2] in line:</span></span><br><span class="line"><span class="comment">#             jobtime = line.split(&quot;=&quot;)[1].strip()</span></span><br><span class="line"><span class="comment">#             jobinfodic[&quot;jobtime&quot;] = jobtime</span></span><br><span class="line">    os.system(<span class="string">&quot;rm job_info.log&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> jobinfodic</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">send_mesg</span>(<span class="params">jobinfo_dic, url, app_token, uids</span>):</span><br><span class="line"></span><br><span class="line">    jobinfo_tup = (jobinfo_dic[<span class="string">&quot;jobid&quot;</span>], jobinfo_dic[<span class="string">&quot;jobname&quot;</span>], jobinfo_dic[<span class="string">&quot;jobstate&quot;</span>], jobinfo_dic[<span class="string">&quot;jobdir&quot;</span>])</span><br><span class="line">    main_body = <span class="string">&quot;# job has finished on hpc \n **job id** \t %s \n **job name** \t %s \n **job states** \t %s \n **job workdir** \t %s&quot;</span> %jobinfo_tup</span><br><span class="line"></span><br><span class="line">    content = &#123;<span class="string">&quot;appToken&quot;</span>: app_token,</span><br><span class="line">               <span class="string">&quot;content&quot;</span>: main_body,</span><br><span class="line">               <span class="string">&quot;summary&quot;</span>:<span class="string">&quot;job &quot;</span> + <span class="built_in">str</span>(jobinfo_dic[<span class="string">&quot;jobid&quot;</span>]) + <span class="string">&quot; has finished on hpc&quot;</span>,</span><br><span class="line">               <span class="string">&quot;contentType&quot;</span>:<span class="number">3</span>,</span><br><span class="line">               <span class="string">&quot;uids&quot;</span>: [uids],</span><br><span class="line">               <span class="string">&quot;url&quot;</span>:<span class="string">&quot;http://wxpusher.zjiecode.com&quot;</span></span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">    content = json.dumps(content)</span><br><span class="line">    r = requests.post(url, data=content, headers=&#123;<span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;)</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># input required parms</span></span><br><span class="line">    url = <span class="string">&quot;http://wxpusher.zjiecode.com/api/send/message&quot;</span></span><br><span class="line">    app_token = <span class="string">&quot;your app_token&quot;</span> <span class="comment"># your app_token</span></span><br><span class="line">    uids = <span class="string">&quot;UID_xxxxxxxxxxxxxxxxxxx&quot;</span> <span class="comment"># UID of the sending target</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># get job detail info</span></span><br><span class="line">    jobinfo_dic = &#123;&#125;</span><br><span class="line">    jobinfo_dic[<span class="string">&quot;jobid&quot;</span>] = get_current_jobid()</span><br><span class="line">    jobinfo_dic[<span class="string">&quot;jobdir&quot;</span>] = os.getcwd()</span><br><span class="line">    get_job_detail_info(jobinfo_dic[<span class="string">&quot;jobid&quot;</span>], jobinfo_dic)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># send message with wspusher</span></span><br><span class="line">    send_mesg(jobinfo_dic, url, app_token, uids)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<p>给 <code>wxpusher_notification.py</code> 添加写权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> +x wxpusher_notification.py</span><br></pre></td></tr></table></figure>
+<p>将 <code>wxpusher_notification.py</code> 移动至环境目录下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mv</span> wxpusher_notification.py ~/.loca/bin</span><br></pre></td></tr></table></figure>
+<h1 id="PBS-提交脚本配置"><a href="#PBS-提交脚本配置" class="headerlink" title="PBS 提交脚本配置"></a>PBS 提交脚本配置</h1><p>pbs 提交脚本的模板如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment">#PBS -N your-job-name</span></span><br><span class="line"><span class="comment">#PBS -l nodes=1:ppn=24</span></span><br><span class="line"><span class="comment">#PBS -q batch</span></span><br><span class="line"><span class="comment">#PBS -l walltime=100:00:00</span></span><br><span class="line"><span class="comment">#PBS -m e</span></span><br><span class="line"><span class="comment">#PBS -M email-address</span></span><br><span class="line"></span><br><span class="line">MPIRUN_COMMAND  <span class="comment"># your command to run software</span></span><br><span class="line"></span><br><span class="line">wxpusher_notification.py</span><br></pre></td></tr></table></figure>
+<p>即在原有的 pbs 提交脚本最后添加 <code>wxpusher_notification.py</code> </p>
+<h1 id="任务推送测试"><a href="#任务推送测试" class="headerlink" title="任务推送测试"></a>任务推送测试</h1><p>通过上面的步骤配置好后，任务完成后，在微信端就可以接收到消息了。</p>
+<p><img src="https://flmore-github-io-1306099430.cos.ap-beijing.myqcloud.com/markdown-img/wxpusher-send-msg-sample.webp" alt="wxpusher 接收消息测试"></p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] <a target="_blank" rel="noopener" href="https://wiki.cheng-group.net/wiki/集群使用/notification_for_hpc">计算任务的推送 (cheng-group.net)</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/WxPusher/" rel="tag"># WxPusher</a>
+              <a href="/tags/python-script/" rel="tag"># python script</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/82f1bd2.html" rel="prev" title="解决网页视频进度条禁止拖动">
+      <i class="fa fa-chevron-left"></i> 解决网页视频进度条禁止拖动
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/4718b384.html" rel="next" title="VASP 错误 WARNING in EDDRMM: call to ZHEGV failed, returncode = 6 3 9">
+      VASP 错误 WARNING in EDDRMM: call to ZHEGV failed, returncode = 6 3 9 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WxPusher-%E7%AE%A1%E7%90%86%E5%90%8E%E5%8F%B0%E9%85%8D%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">WxPusher 管理后台配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Python-%E8%84%9A%E6%9C%AC%E8%B0%83%E7%94%A8-WxPusher"><span class="nav-number">3.</span> <span class="nav-text">Python 脚本调用 WxPusher</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PBS-%E6%8F%90%E4%BA%A4%E8%84%9A%E6%9C%AC%E9%85%8D%E7%BD%AE"><span class="nav-number">4.</span> <span class="nav-text">PBS 提交脚本配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E6%8E%A8%E9%80%81%E6%B5%8B%E8%AF%95"><span class="nav-number">5.</span> <span class="nav-text">任务推送测试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">6.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="flmore"
+      src="https://flmore-github-io-1306099430.cos.ap-beijing.myqcloud.com/markdown-img/avtar_720x720.jpeg">
+  <p class="site-author-name" itemprop="name">flmore</p>
+  <div class="site-description" itemprop="description">记录生活，记录成长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">flmore</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
