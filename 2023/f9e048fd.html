@@ -228,40 +228,24 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="slurm-简介"><a href="#slurm-简介" class="headerlink" title="slurm 简介"></a>slurm 简介</h1><h1 id="源安装slurm"><a href="#源安装slurm" class="headerlink" title="源安装slurm"></a>源安装slurm</h1><h2 id="主节点配置"><a href="#主节点配置" class="headerlink" title="主节点配置"></a>主节点配置</h2><ol>
-<li><p>首先要确保时间、用户和组在集群中同步。</p>
-</li>
-<li><p>安装MUNGE</p>
-</li>
-</ol>
+        <h1 id="slurm-简介"><a href="#slurm-简介" class="headerlink" title="slurm 简介"></a>slurm 简介</h1><h1 id="源安装slurm"><a href="#源安装slurm" class="headerlink" title="源安装slurm"></a>源安装slurm</h1><h2 id="主节点配置"><a href="#主节点配置" class="headerlink" title="主节点配置"></a>主节点配置</h2><p>1.首先要确保时间、用户和组在集群中同步。</p>
+<p>2.安装MUNGE</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install -y libmunge-dev libmunge2 munge</span><br></pre></td></tr></table></figure>
-<ol>
-<li>生成 MUNGE 密钥。</li>
-</ol>
+<p>3.生成 MUNGE 密钥。</p>
 <p>实测MUNGE安装好后会默认生成。因此，除非有特别的安全考虑，否则这一步不是必须执行的。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 写入随机数据</span></span><br><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/random bs=1 count=1024 &gt; /etc/munge/munge.key <span class="comment"># recommended for the paranoid</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 写入伪随机数据</span></span><br><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/urandom bs=1 count=1024 &gt; /etc/munge/munge.key <span class="comment"># recommended for the impatient</span></span><br></pre></td></tr></table></figure>
 <p>修改密钥权限</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chown</span> munge:munge /etc/munge/munge.key</span><br><span class="line"><span class="built_in">chmod</span> 400 /etc/munge/munge.key</span><br></pre></td></tr></table></figure>
-<ol>
-<li>修改 <code>/etc/passwd</code> 文件</li>
-</ol>
+<p>4.修改 <code>/etc/passwd</code> 文件</p>
 <p>将每个节点的munge用户修改为如下设置</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">munge:x:501:501::/var/run/munge;/sbin/nologin</span><br></pre></td></tr></table></figure>
-<ol>
-<li>开启 munge</li>
-</ol>
+<p>5.开启 munge</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl start munge</span><br><span class="line">systemctl status munge</span><br></pre></td></tr></table></figure>
-<ol>
-<li>测试munge是否正常安装成功</li>
-</ol>
+<p>6.测试munge是否正常安装成功</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">munge -n	<span class="comment"># 在屏幕上输出凭证</span></span><br><span class="line">munge -n | unmunge	<span class="comment"># 检查凭据是否可以在本地解码</span></span><br><span class="line">munge -n | ssh somehost unmunge		<span class="comment"># 检查凭据是否能远程解码</span></span><br><span class="line">remunge		<span class="comment"># 快速测试</span></span><br></pre></td></tr></table></figure>
-<ol>
-<li>在 Debian 11 上通过源安装 SLURM</li>
-</ol>
+<p>7.在 Debian 11 上通过源安装 SLURM</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install -y slurm-wlm slurm-wlm-doc</span><br></pre></td></tr></table></figure>
-<ol>
-<li>创建 slurm 配置文件</li>
-</ol>
+<p>8.创建 slurm 配置文件</p>
 <p>在浏览器中打开 <code>/usr/share/doc/slurmctld/slurm-wlm-configurator.html</code> 网页，根据实际情况填写，提交后会生成对应配置文件。</p>
 <blockquote>
 <p><strong>注意</strong>： 可以使用 <code>slurmd -C</code> 命令来获取节点对应的核数、内存等信息。</p>
@@ -274,22 +258,14 @@
 <p>实测在使用如上配置的情况下，还需一个 <code>cgroup.conf</code> 文件置于相同的目录下才可正常运行。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">###</span></span><br><span class="line"><span class="comment"># Slurm cgroup support configuration file.</span></span><br><span class="line"><span class="comment">###</span></span><br><span class="line">CgroupAutomount=<span class="built_in">yes</span></span><br><span class="line">CgroupMountpoint=/sys/fs/cgroup</span><br><span class="line">ConstrainCores=<span class="built_in">yes</span></span><br><span class="line">ConstrainDevices=<span class="built_in">yes</span></span><br><span class="line">ConstrainKmemSpace=no        <span class="comment">#avoid known Kernel issues</span></span><br><span class="line">ConstrainRAMSpace=<span class="built_in">yes</span></span><br><span class="line">ConstrainSwapSpace=<span class="built_in">yes</span></span><br></pre></td></tr></table></figure>
 <p>至此主节点配置完毕。</p>
-<h2 id="计算节点配置"><a href="#计算节点配置" class="headerlink" title="计算节点配置"></a>计算节点配置</h2><ol>
-<li>安装 MUNGE</li>
-</ol>
+<h2 id="计算节点配置"><a href="#计算节点配置" class="headerlink" title="计算节点配置"></a>计算节点配置</h2><p>1.安装 MUNGE</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install -y libmunge-dev libmunge2 munge</span><br></pre></td></tr></table></figure>
-<ol>
-<li>将主节点的<code>munge.key</code> 复制到各计算节点</li>
-</ol>
+<p>2.将主节点的<code>munge.key</code> 复制到各计算节点</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp /etc/munge/munge.key root@node:/etc/munge/munge.key</span><br></pre></td></tr></table></figure>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chown</span> munge:munge /etc/munge/munge.key</span><br><span class="line"><span class="built_in">chmod</span> 400 /etc/munge/munge.key</span><br></pre></td></tr></table></figure>
-<ol>
-<li>在 Debian 11 上通过源安装 SLURM</li>
-</ol>
+<p>3.在 Debian 11 上通过源安装 SLURM</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install -y slurmd</span><br></pre></td></tr></table></figure>
-<ol>
-<li>在计算节点和主节点启动 SLURM</li>
-</ol>
+<p>4.在计算节点和主节点启动 SLURM</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl start slurmd</span><br><span class="line">systemctl start slurmctld</span><br></pre></td></tr></table></figure>
 <p>至此在集群上源安装 SLURM 完成。</p>
 <h1 id="源码编译安装"><a href="#源码编译安装" class="headerlink" title="源码编译安装"></a>源码编译安装</h1><h2 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install git build-essential libssl-dev libmysql++-dev ffmpeg python3-pip openssh-server cmake -y</span><br></pre></td></tr></table></figure>
