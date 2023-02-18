@@ -28,7 +28,7 @@
 <meta property="og:description" content="如题，本文记录了一些VASP常见计算的计算步骤。如过渡态、虚频、电荷差分、Bader电荷等的计算。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-12-10T22:23:55.000Z">
-<meta property="article:modified_time" content="2022-12-10T22:23:55.000Z">
+<meta property="article:modified_time" content="2023-02-18T16:52:55.000Z">
 <meta property="article:author" content="flmore">
 <meta property="article:tag" content="vasp">
 <meta property="article:tag" content="transition state">
@@ -193,6 +193,13 @@
 
               <time title="Created: 2022-12-10 22:23:55" itemprop="dateCreated datePublished" datetime="2022-12-10T22:23:55+00:00">2022-12-10</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-02-18 16:52:55" itemprop="dateModified" datetime="2023-02-18T16:52:55+00:00">2023-02-18</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -232,11 +239,11 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nebmake.pl POSCAR1 POSCAR2 X </span><br><span class="line"><span class="comment"># X 为插点个数，一般取距离/0.8，且必须被核心数整除</span></span><br></pre></td></tr></table></figure>
 <p>检查新建的目录，查看POSCAR的固定情况</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> ??; <span class="keyword">do</span> (<span class="built_in">cd</span> <span class="variable">$x</span>; <span class="built_in">ln</span> -sv ../POTCAR); <span class="keyword">done</span> <span class="comment"># 将POTCAR复制进入各目录</span></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> ??; <span class="keyword">do</span> (<span class="built_in">cd</span> <span class="variable">$x</span>; vasp-pos-to-cif5 POSCAR); <span class="keyword">done</span> &gt; t.cif</span><br></pre></td></tr></table></figure>
-<p>使用 Jmol 观察<code>t.cif</code> 检查插点是否合理<br>修改INCAR</p>
+<p>使用 <a target="_blank" rel="noopener" href="https://jmol.sourceforge.net/">Jmol</a> 观察<code>t.cif</code> 检查插点是否合理<br>修改INCAR</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">IBRION = 1 		<span class="comment"># 不可等于2</span></span><br><span class="line">POTIM = 0.2		<span class="comment"># =0.1</span></span><br><span class="line">IMAGES = X 		<span class="comment"># 插点数  </span></span><br><span class="line">SPRING = -5   </span><br><span class="line">LCLIMB = .T.	<span class="comment"># 需要爬坡</span></span><br></pre></td></tr></table></figure>
 <p>修改 <code>job.pbs</code> 中的资源数</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nodes = 2 or  ppn  = 48 </span><br></pre></td></tr></table></figure>
-<p>复制一个OUTCAR进入始末文件夹下</p>
+<p>复制初末态结构优化的OUTCAR进入始末目录下</p>
 <p>提交计算任务</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nebef.pl <span class="comment"># 查看能量</span></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> ??; <span class="keyword">do</span> (<span class="built_in">cd</span> <span class="variable">$x</span>; vasp-pos-to-cif5 CONTCAR) ; <span class="keyword">done</span> &gt; t.cif</span><br><span class="line"><span class="comment"># 检查计算结果 输出t.cif文件</span></span><br></pre></td></tr></table></figure>
 <h1 id="虚频计算"><a href="#虚频计算" class="headerlink" title="虚频计算"></a>虚频计算</h1><p><code>mkdir freq</code>新建freq目录<br>将过渡态计算中能量最高点目录下的CONTCAR拷贝进新建的目录<br>固定除了气体分子以外的其他原子 命名为POSCAR<br>复制KPOINTS   POTCAR  INCAR  job.pbs<br>对INCAR进行设置</p>
