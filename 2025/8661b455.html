@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"flmore.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本文记录了亲电指数的计算公式及使用gauusian计算硫酸根自由基亲电指数的具体步骤。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="gaussian计算自由基亲电指数">
+<meta property="og:url" content="https://flmore.github.io/2025/8661b455.html">
+<meta property="og:site_name" content="flmore&#39;s blog">
+<meta property="og:description" content="本文记录了亲电指数的计算公式及使用gauusian计算硫酸根自由基亲电指数的具体步骤。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-11-21T17:09:55.000Z">
+<meta property="article:modified_time" content="2025-11-21T17:09:55.000Z">
+<meta property="article:author" content="flmore">
+<meta property="article:tag" content="gaussian">
+<meta property="article:tag" content="亲电指数">
+<meta property="article:tag" content="自由基">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://flmore.github.io/2025/8661b455.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>gaussian计算自由基亲电指数 | flmore's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">flmore's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-gallery">
+
+    <a href="/gallery/" rel="section"><i class="fas fa-camera-retro fa-fw"></i>gallery</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://flmore.github.io/2025/8661b455.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://flmore-github-io-1306099430.cos.ap-beijing.myqcloud.com/markdown-img/avtar_720x720.jpeg">
+      <meta itemprop="name" content="flmore">
+      <meta itemprop="description" content="记录生活，记录成长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="flmore's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          gaussian计算自由基亲电指数
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-11-21 17:09:55" itemprop="dateCreated datePublished" datetime="2025-11-21T17:09:55+00:00">2025-11-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ComputMat/" itemprop="url" rel="index"><span itemprop="name">ComputMat</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <div class="post-description">本文记录了亲电指数的计算公式及使用gauusian计算硫酸根自由基亲电指数的具体步骤。</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="1-亲电指数（Electrophilicity-Index-ω）简介"><a href="#1-亲电指数（Electrophilicity-Index-ω）简介" class="headerlink" title="1. 亲电指数（Electrophilicity Index, ω）简介"></a><strong>1. 亲电指数（Electrophilicity Index, ω）简介</strong></h1><p>亲电指数（ω）是描述分子或自由基亲电性强弱的量化指标，反映其吸引电子的能力。计算公式为：</p>
+<script type="math/tex; mode=display">
+\omega = \frac{\mu^2}{2\eta}</script><p>其中：</p>
+<ul>
+<li><strong>化学势（μ）</strong>：体系得电子能力的度量，μ 越小亲电性越强。</li>
+<li><strong>硬度（η）</strong>：体系抵抗电荷变化的能力，η 越小化学反应性越高。</li>
+</ul>
+<blockquote>
+<p><strong>亲电性排序</strong>：ω 值越大，亲电性越强（如 SO₄•⁻ &gt; OH• &gt; CO₃•⁻）。</p>
+</blockquote>
+<hr>
+<h1 id="2-计算公式与物理量含义"><a href="#2-计算公式与物理量含义" class="headerlink" title="2. 计算公式与物理量含义"></a><strong>2. 计算公式与物理量含义</strong></h1><p><strong>计算步骤（推荐有限差分法）：</strong></p>
+<ol>
+<li><strong>电离能（I）</strong>：移去一个电子所需能量<br>[ I = E(N-1) - E(N) ]</li>
+<li><strong>电子亲和能（A）</strong>：得到一个电子释放的能量<br>[ A = E(N) - E(N+1) ]</li>
+<li><strong>化学势（μ）</strong>：<br>[ \mu = -\frac{I + A}{2} \quad \text{(eV)} ]</li>
+<li><strong>硬度（η）</strong>：<br>[ \eta = I - A \quad \text{(eV)} ]</li>
+<li><strong>亲电指数（ω）</strong>：<br>[ \omega = \frac{\mu^2}{2\eta} \quad \text{(eV)} ]</li>
+</ol>
+<blockquote>
+<p><strong>单位转换</strong>：<br>能量单位需统一（建议用 eV）：<br>( 1 \text{Hartree} = 27.211386245988 \text{eV} ).</p>
+</blockquote>
+<hr>
+<h1 id="3-Gaussian-计算步骤"><a href="#3-Gaussian-计算步骤" class="headerlink" title="3. Gaussian 计算步骤"></a><strong>3. Gaussian 计算步骤</strong></h1><h2 id="流程（以自由基为例）："><a href="#流程（以自由基为例）：" class="headerlink" title="流程（以自由基为例）："></a><strong>流程（以自由基为例）：</strong></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">    A[几何优化与频率分析] --&gt; B[竖直单点能计算]</span><br><span class="line">    B --&gt; C[提取SCF能量]</span><br><span class="line">    C --&gt; D[计算ω]</span><br></pre></td></tr></table></figure>
+<h2 id="详细操作："><a href="#详细操作：" class="headerlink" title="详细操作："></a><strong>详细操作：</strong></h2><h3 id="1-几何优化（确保结构稳定）"><a href="#1-几何优化（确保结构稳定）" class="headerlink" title="1. 几何优化（确保结构稳定）"></a><strong>1. 几何优化（确保结构稳定）</strong></h3><ul>
+<li><strong>输入模板</strong>（示例：SO₄•⁻）：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">%chk=SO4_rad.chk</span><br><span class="line">%mem=96GB</span><br><span class="line">%nprocshared=24</span><br><span class="line"># opt freq B3LYP/6-31+G(d,p) em=gd3bj scrf=(smd,solvent=water)</span><br><span class="line"></span><br><span class="line">SO4 radical anion optimization</span><br><span class="line"></span><br><span class="line">-1 2</span><br><span class="line">S    0.000000    0.000000    0.000000</span><br><span class="line">O    1.480000    0.000000    0.000000</span><br><span class="line">O    -0.740000    1.282000    0.000000</span><br><span class="line">O    -0.740000    -1.282000    0.000000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>输出检查</strong>：<ul>
+<li>确认 <code>Freq</code> 无虚频（极小点）。</li>
+<li>记录 <code>SCF Done: E = [能量] Hartree</code>（即 ( E(N) )）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-竖直单点能计算"><a href="#2-竖直单点能计算" class="headerlink" title="2. 竖直单点能计算"></a><strong>2. 竖直单点能计算</strong></h3><ul>
+<li><p><strong>N-1 态</strong>（移去一个电子）： </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">%oldchk=SO4_rad.chk</span><br><span class="line">%chk=SO4_sp_Nminus1.chk</span><br><span class="line">%mem=96GB</span><br><span class="line">%nprocshared=24</span><br><span class="line"># sp B3LYP/6-31+G(d,p) em=gd3bj scrf=(smd,solvent=water) geom=check guess=read</span><br><span class="line"></span><br><span class="line">SO4 N-1 single point (vertical ionization)</span><br><span class="line"></span><br><span class="line">0 1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>N+1 态</strong>（添加一个电子）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">%oldchk=SO4_rad.chk</span><br><span class="line">%chk=SO4_sp_Nplus1.chk</span><br><span class="line">%mem=96GB</span><br><span class="line">%nprocshared=24</span><br><span class="line"># sp B3LYP/6-31+G(d,p) em=gd3bj scrf=(smd,solvent=water) geom=check guess=read</span><br><span class="line"></span><br><span class="line">SO4 N+1 single point (vertical electron affinity)</span><br><span class="line"></span><br><span class="line">-2 1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>记录 ( E(N-1) ) 和 ( E(N+1) )（SCF能量）。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep &quot;SCF Done&quot; *.log</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h1 id="4-结果提取与ω计算"><a href="#4-结果提取与ω计算" class="headerlink" title="4. 结果提取与ω计算"></a><strong>4. 结果提取与ω计算</strong></h1><h2 id="示例：SO₄•⁻-计算"><a href="#示例：SO₄•⁻-计算" class="headerlink" title="示例：SO₄•⁻ 计算"></a><strong>示例：SO₄•⁻ 计算</strong></h2><p>从输出文件提取能量（单位：Hartree）：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">E</span><span class="params">(N-<span class="number">1</span>)</span></span> = -<span class="number">698.873452</span></span><br><span class="line"><span class="function"><span class="title">E</span><span class="params">(N)</span></span> = -<span class="number">699.1679234</span></span><br><span class="line"><span class="function"><span class="title">E</span><span class="params">(N+<span class="number">1</span>)</span></span> = -<span class="number">699.3732474</span></span><br></pre></td></tr></table></figure>
+<p><strong>步骤解析：</strong></p>
+<ol>
+<li>计算 I 和 A（Hartree → eV）：</li>
+</ol>
+<script type="math/tex; mode=display">
+I = [-698.873452 - (-699.1679234)] \times 27.211386 = 8.013 \text{eV}</script><script type="math/tex; mode=display">
+A = [-699.1679234 - (-699.3732474)] \times 27.211386 = 5.587 \text{eV}</script><ol>
+<li>计算 μ 和 η：</li>
+</ol>
+<script type="math/tex; mode=display">
+\mu = -\frac{(8.013 + 5.587)}{2} = -6.800 \text{eV}</script><script type="math/tex; mode=display">
+\eta = 8.013 - 5.587 = 2.426 \text{eV}</script><ol>
+<li>计算 ω：</li>
+</ol>
+<script type="math/tex; mode=display">
+\omega = \frac{(-6.800)^2}{2 \times 2.426} = 9.531 \text{eV}</script><h2 id="三种自由基结果对比"><a href="#三种自由基结果对比" class="headerlink" title="三种自由基结果对比"></a><strong>三种自由基结果对比</strong></h2><p>使用相同方法计算了碳酸根自由基和羟基自由基的亲电指数。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>物种</th>
+<th>I (eV)</th>
+<th>A (eV)</th>
+<th>μ (eV)</th>
+<th>η (eV)</th>
+<th><strong>ω (eV)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CO₃•⁻</td>
+<td>7.903</td>
+<td>4.915</td>
+<td>-6.409</td>
+<td>2.988</td>
+<td><strong>6.873</strong></td>
+</tr>
+<tr>
+<td>OH•</td>
+<td>9.742</td>
+<td>5.608</td>
+<td>-7.675</td>
+<td>4.135</td>
+<td><strong>7.123</strong></td>
+</tr>
+<tr>
+<td><strong>SO₄•⁻</strong></td>
+<td>8.013</td>
+<td>5.587</td>
+<td>-6.800</td>
+<td>2.426</td>
+<td><strong>9.531</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p><strong>结论</strong>：SO₄•⁻ 亲电性最强（ω 最大），OH• 次之，CO₃•⁻ 最弱。</p>
+</blockquote>
+<hr>
+<h1 id="5-注意事项"><a href="#5-注意事项" class="headerlink" title="5.注意事项"></a><strong>5.注意事项</strong></h1><ol>
+<li><strong>溶剂一致性</strong>：所有计算必须使用相同的溶剂模型（如 <code>scrf=(smd,solvent=water)</code>）。</li>
+<li><strong>自旋污染检查</strong>：对开壳层体系（如自由基），检查输出中 <code>&lt;S²&gt;</code> 是否接近理论值（双电子自由基为 0.75）。</li>
+<li><strong>二价阴离子稳定性</strong>：如 SO₄²⁻ 需在溶剂模型中计算，气相可能不收敛。</li>
+<li><strong>坐标格式</strong>：单点计算建议用 <code>geom=check</code> 直接读取优化后的结构。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/gaussian/" rel="tag"># gaussian</a>
+              <a href="/tags/%E4%BA%B2%E7%94%B5%E6%8C%87%E6%95%B0/" rel="tag"># 亲电指数</a>
+              <a href="/tags/%E8%87%AA%E7%94%B1%E5%9F%BA/" rel="tag"># 自由基</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/7e911c7a.html" rel="prev" title="vasp多版本自动编译脚本">
+      <i class="fa fa-chevron-left"></i> vasp多版本自动编译脚本
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E4%BA%B2%E7%94%B5%E6%8C%87%E6%95%B0%EF%BC%88Electrophilicity-Index-%CF%89%EF%BC%89%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">1. 亲电指数（Electrophilicity Index, ω）简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F%E4%B8%8E%E7%89%A9%E7%90%86%E9%87%8F%E5%90%AB%E4%B9%89"><span class="nav-number">2.</span> <span class="nav-text">2. 计算公式与物理量含义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Gaussian-%E8%AE%A1%E7%AE%97%E6%AD%A5%E9%AA%A4"><span class="nav-number">3.</span> <span class="nav-text">3. Gaussian 计算步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B%EF%BC%88%E4%BB%A5%E8%87%AA%E7%94%B1%E5%9F%BA%E4%B8%BA%E4%BE%8B%EF%BC%89%EF%BC%9A"><span class="nav-number">3.1.</span> <span class="nav-text">流程（以自由基为例）：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%A6%E7%BB%86%E6%93%8D%E4%BD%9C%EF%BC%9A"><span class="nav-number">3.2.</span> <span class="nav-text">详细操作：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%87%A0%E4%BD%95%E4%BC%98%E5%8C%96%EF%BC%88%E7%A1%AE%E4%BF%9D%E7%BB%93%E6%9E%84%E7%A8%B3%E5%AE%9A%EF%BC%89"><span class="nav-number">3.2.1.</span> <span class="nav-text">1. 几何优化（确保结构稳定）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%AB%96%E7%9B%B4%E5%8D%95%E7%82%B9%E8%83%BD%E8%AE%A1%E7%AE%97"><span class="nav-number">3.2.2.</span> <span class="nav-text">2. 竖直单点能计算</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E7%BB%93%E6%9E%9C%E6%8F%90%E5%8F%96%E4%B8%8E%CF%89%E8%AE%A1%E7%AE%97"><span class="nav-number">4.</span> <span class="nav-text">4. 结果提取与ω计算</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9ASO%E2%82%84%E2%80%A2%E2%81%BB-%E8%AE%A1%E7%AE%97"><span class="nav-number">4.1.</span> <span class="nav-text">示例：SO₄•⁻ 计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E7%A7%8D%E8%87%AA%E7%94%B1%E5%9F%BA%E7%BB%93%E6%9E%9C%E5%AF%B9%E6%AF%94"><span class="nav-number">4.2.</span> <span class="nav-text">三种自由基结果对比</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">5.</span> <span class="nav-text">5.注意事项</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="flmore"
+      src="https://flmore-github-io-1306099430.cos.ap-beijing.myqcloud.com/markdown-img/avtar_720x720.jpeg">
+  <p class="site-author-name" itemprop="name">flmore</p>
+  <div class="site-description" itemprop="description">记录生活，记录成长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">flmore</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
