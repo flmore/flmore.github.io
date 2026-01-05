@@ -221,9 +221,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="安装docker和docker-ce"><a href="#安装docker和docker-ce" class="headerlink" title="安装docker和docker-ce"></a>安装docker和docker-ce</h1><p>参考<a target="_blank" rel="noopener" href="https://www.runoob.com/docker/centos-docker-install.html">这篇文章</a>安装<code>docker</code> 和 <code>docker-ce</code></p>
+        <h1>安装docker和docker-ce</h1>
+<p>参考<a target="_blank" rel="noopener" href="https://www.runoob.com/docker/centos-docker-install.html">这篇文章</a>安装<code>docker</code> 和 <code>docker-ce</code></p>
 <p>安装完成后分别运行<code>docker version</code> 和 <code>docker-ce version</code> 即可验证是否安装成功。</p>
-<h1 id="安装Overleaf"><a href="#安装Overleaf" class="headerlink" title="安装Overleaf"></a>安装Overleaf</h1><p>首先将overleaf项目从github拉至本地</p>
+<h1>安装Overleaf</h1>
+<p>首先将overleaf项目从github拉至本地</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/overleaf/toolkit.git ./overleaf</span><br></pre></td></tr></table></figure>
 <p>然后进行初始化配置</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ./overleaf</span><br><span class="line">bin/init</span><br></pre></td></tr></table></figure>
@@ -243,12 +245,14 @@
 <p>此时用浏览器打开</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://公网IP:8080/</span><br></pre></td></tr></table></figure>
 <p>会看到管理员注册界面，至此overleaf的安装结束。</p>
-<h1 id="安装完整texlive包"><a href="#安装完整texlive包" class="headerlink" title="安装完整texlive包"></a>安装完整texlive包</h1><p>以上安装的overleaf配套的LaTeX不是完整版，所以需要继续下载。</p>
+<h1>安装完整texlive包</h1>
+<p>以上安装的overleaf配套的LaTeX不是完整版，所以需要继续下载。</p>
 <p>首先进入容器的bash</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it sharelatex bash</span><br><span class="line"><span class="built_in">cd</span> /usr/local/texlive</span><br></pre></td></tr></table></figure>
 <p>然后执行以下命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 下载并运行升级脚本</span></span><br><span class="line">wget http://mirror.ctan.org/systems/texlive/tlnet/update-tlmgr-latest.sh</span><br><span class="line">sh update-tlmgr-latest.sh -- --upgrade</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更换texlive的下载源</span></span><br><span class="line">tlmgr option repository https://mirrors.sustech.edu.cn/CTAN/systems/texlive/tlnet/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 升级tlmgr</span></span><br><span class="line">tlmgr update --self --all</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装完整版texlive（时间比较长，不要让shell断开）</span></span><br><span class="line">tlmgr install scheme-full</span><br><span class="line"></span><br><span class="line"><span class="comment"># 退出sharelatex的命令行界面，并重启sharelatex容器</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">docker restart sharelatex</span><br></pre></td></tr></table></figure>
-<h1 id="配置中文字体"><a href="#配置中文字体" class="headerlink" title="配置中文字体"></a>配置中文字体</h1><p>由于LaTeX默认带的中文字库缺乏很多生僻字，因此可以添加Windows的字库做补充。</p>
+<h1>配置中文字体</h1>
+<p>由于LaTeX默认带的中文字库缺乏很多生僻字，因此可以添加Windows的字库做补充。</p>
 <p>首先将Windows系统下找到：</p>
 <p><code>C:\Windows\Fonts</code>,将这个文件夹打包后上传至服务器，并置于容器数据的挂载点：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar xzvf windwos/fonts/path.tar.gz</span><br><span class="line"><span class="built_in">cp</span> windows/fonts/path/ ./data/sharelatex</span><br></pre></td></tr></table></figure>
@@ -259,14 +263,16 @@
 <p>即可安装字体文件。</p>
 <p>然后查看字体文件是否正确安装：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fc-list | grep windows</span><br></pre></td></tr></table></figure>
-<h1 id="创建管理员账户"><a href="#创建管理员账户" class="headerlink" title="创建管理员账户"></a>创建管理员账户</h1><p>将下面的邮件换成自己的邮箱</p>
+<h1>创建管理员账户</h1>
+<p>将下面的邮件换成自己的邮箱</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> sharelatex /bin/bash -c <span class="string">&quot;cd /var/www/sharelatex; grunt user:create-admin --email=joe@example.com&quot;</span></span><br></pre></td></tr></table></figure>
 <p>然后打开浏览器访问<code>http://localhost:8080/user/activate?token=&lt;token&gt;</code>，配置密码激活后即可使用。</p>
-<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] <a target="_blank" rel="noopener" href="https://github.com/overleaf/overleaf/wiki/Quick-Start-Guide">https://github.com/overleaf/overleaf/wiki/Quick-Start-Guide</a></p>
+<h1>参考文献</h1>
+<p>[1] <a target="_blank" rel="noopener" href="https://github.com/overleaf/overleaf/wiki/Quick-Start-Guide">https://github.com/overleaf/overleaf/wiki/Quick-Start-Guide</a></p>
 <p>[2] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/481788258">利用腾讯云服务器搭建自己的overleaf（写论文神器） - 知乎 (zhihu.com)</a></p>
 <p>[3] <a target="_blank" rel="noopener" href="https://haidi-ustc.github.io/2021/08/01/computer/latex/overleaf/">centos-7本地overleaf安装 | null (haidi-ustc.github.io)</a></p>
 <p>[4] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/592295650">win10系统搭建本地overleaf平台实现多人远程协作修改Latex文档 - 知乎 (zhihu.com)</a></p>
-<p>[5] <a target="_blank" rel="noopener" href="https://www.zhang-hb.com/2022/01/01/在自己的服务器上配overleaf/">在自己的服务器上配overleaf - zhanghb (zhang-hb.com)</a></p>
+<p>[5] <a target="_blank" rel="noopener" href="https://www.zhang-hb.com/2022/01/01/%E5%9C%A8%E8%87%AA%E5%B7%B1%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E9%85%8Doverleaf/">在自己的服务器上配overleaf - zhanghb (zhang-hb.com)</a></p>
 <p>[6] <a target="_blank" rel="noopener" href="https://www.runoob.com/docker/centos-docker-install.html">CentOS Docker 安装 | 菜鸟教程 (runoob.com)</a></p>
 
     </div>
@@ -352,7 +358,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85docker%E5%92%8Cdocker-ce"><span class="nav-number">1.</span> <span class="nav-text">安装docker和docker-ce</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Overleaf"><span class="nav-number">2.</span> <span class="nav-text">安装Overleaf</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%AE%8C%E6%95%B4texlive%E5%8C%85"><span class="nav-number">3.</span> <span class="nav-text">安装完整texlive包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E4%B8%AD%E6%96%87%E5%AD%97%E4%BD%93"><span class="nav-number">4.</span> <span class="nav-text">配置中文字体</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%AE%A1%E7%90%86%E5%91%98%E8%B4%A6%E6%88%B7"><span class="nav-number">5.</span> <span class="nav-text">创建管理员账户</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">6.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">安装docker和docker-ce</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">安装Overleaf</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">安装完整texlive包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">4.</span> <span class="nav-text">配置中文字体</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">5.</span> <span class="nav-text">创建管理员账户</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">6.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -368,7 +374,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -381,7 +387,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">31</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -408,7 +414,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

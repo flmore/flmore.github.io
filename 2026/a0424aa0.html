@@ -20,20 +20,22 @@
     var CONFIG = {"hostname":"flmore.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="为了提高组内沟通效率，减少因软件版本不同导致的各种兼容问题，现对组内成员经常使用的科研办公软件的版本做如下约定。">
+  <meta name="description" content="本文档用于规范和复现基于 DFT + CHE 方法的H₂O₂分解&#x2F;还原反应自由能台阶图（free energy diagram）计算流程，适用于酸性电化学环境（pH &#x3D; 0）。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="组内软件版本约定">
-<meta property="og:url" content="https://flmore.github.io/2022/d304cf35.html">
+<meta property="og:title" content="H₂O₂分解反应自由能台阶图计算流程">
+<meta property="og:url" content="https://flmore.github.io/2026/a0424aa0.html">
 <meta property="og:site_name" content="flmore&#39;s blog">
-<meta property="og:description" content="为了提高组内沟通效率，减少因软件版本不同导致的各种兼容问题，现对组内成员经常使用的科研办公软件的版本做如下约定。">
+<meta property="og:description" content="本文档用于规范和复现基于 DFT + CHE 方法的H₂O₂分解&#x2F;还原反应自由能台阶图（free energy diagram）计算流程，适用于酸性电化学环境（pH &#x3D; 0）。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2022-11-08T10:52:35.000Z">
-<meta property="article:modified_time" content="2022-11-08T10:52:35.000Z">
+<meta property="article:published_time" content="2026-01-05T21:27:55.000Z">
+<meta property="article:modified_time" content="2026-01-05T21:27:55.000Z">
 <meta property="article:author" content="flmore">
-<meta property="article:tag" content="Misc">
+<meta property="article:tag" content="vasp">
+<meta property="article:tag" content="催化">
+<meta property="article:tag" content="自由能台阶图">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://flmore.github.io/2022/d304cf35.html">
+<link rel="canonical" href="https://flmore.github.io/2026/a0424aa0.html">
 
 
 <script id="page-configurations">
@@ -46,7 +48,7 @@
   };
 </script>
 
-  <title>组内软件版本约定 | flmore's blog</title>
+  <title>H₂O₂分解反应自由能台阶图计算流程 | flmore's blog</title>
   
 
 
@@ -166,7 +168,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://flmore.github.io/2022/d304cf35.html">
+    <link itemprop="mainEntityOfPage" href="https://flmore.github.io/2026/a0424aa0.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://flmore-github-io-1306099430.cos.ap-beijing.myqcloud.com/markdown-img/avtar_720x720.jpeg">
@@ -179,7 +181,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          组内软件版本约定
+          H₂O₂分解反应自由能台阶图计算流程
         </h1>
 
         <div class="post-meta">
@@ -189,7 +191,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2022-11-08 10:52:35" itemprop="dateCreated datePublished" datetime="2022-11-08T10:52:35+00:00">2022-11-08</time>
+              <time title="Created: 2026-01-05 21:27:55" itemprop="dateCreated datePublished" datetime="2026-01-05T21:27:55+00:00">2026-01-05</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -197,7 +199,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AE%9E%E9%AA%8C%E5%AE%A4/" itemprop="url" rel="index"><span itemprop="name">实验室</span></a>
+                  <a href="/categories/ComputMat/" itemprop="url" rel="index"><span itemprop="name">ComputMat</span></a>
                 </span>
             </span>
 
@@ -209,7 +211,7 @@
               <span class="post-meta-item-text">Views: </span>
               <span id="busuanzi_value_page_pv"></span>
             </span>
-            <div class="post-description">为了提高组内沟通效率，减少因软件版本不同导致的各种兼容问题，现对组内成员经常使用的科研办公软件的版本做如下约定。</div>
+            <div class="post-description">本文档用于规范和复现基于 DFT + CHE 方法的H₂O₂分解/还原反应自由能台阶图（free energy diagram）计算流程，适用于酸性电化学环境（pH = 0）。</div>
 
         </div>
       </header>
@@ -220,40 +222,164 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1>Office 三件套</h1>
-<p>主要包括Word、Excel、PPT等基本的办公软件。</p>
-<p>应统一使用<strong>Office 2021 LTSC 专业增强版（64位）</strong></p>
-<p>软件安装步骤参考<a target="_blank" rel="noopener" href="https://software.cup.edu.cn/soft/detail/24#knowledge">我校正版化软件平台</a></p>
-<p><a target="_blank" rel="noopener" href="http://202.204.193.23/Office_2021_LTSC_Pro_Plus_x64_zh.iso">安装包下载地址</a>(复制链接后手动在新标签页打开)</p>
-<h1>数据处理及可视化软件</h1>
-<h2 id="Originlab">Originlab</h2>
-<p>是一款非常有名并且易于使用的科学用途数据绘图与数据分析处理工具软件，能够为用户提供多样的数据统计、处理、报告等功能，还能根据数据帮用户生成离散图、折线图等图形，以更加直观的方式向你展现数据内容。</p>
-<p>统一使用<strong>Origin Pro 2019b 版本，并安装32位程序</strong></p>
-<p>软件安装步骤参考<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/7R3uP0n7DtZszrLPfsExmA">微信文章</a> (序列号：DF2W8-9089-7991320)</p>
-<p><a target="_blank" rel="noopener" href="https://fileshare.flmore.top/d/PACKAGES/07.DrawAnalyse/origin-pro-2019b.zip">安装包下载地址</a>(复制链接后手动在新标签页打开)</p>
-<h2 id="Jade">Jade</h2>
-<p>是一款专门用于XRD分析的软件。其通过对材料进行X射线衍射，分析其衍射图谱，获得材料的成分、材料内部原子或分子的结构或形态等信息的研究手段。</p>
-<p>统一使用 <strong>Jade 6.5版本</strong></p>
-<p>安装步骤参考<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/419889013">知乎文章</a></p>
-<p><a target="_blank" rel="noopener" href="https://fileshare.flmore.top/d/PACKAGES/07.DrawAnalyse/jade6.5.zip">安装包下载地址</a>(复制链接后手动在新标签页打开)</p>
-<h2 id="HSC">HSC</h2>
-<p>统一使用 <strong>HSC 6 版本</strong></p>
-<p><a target="_blank" rel="noopener" href="https://fileshare.flmore.top/d/PACKAGES/07.DrawAnalyse/HSC%20Chemistry%206.zip">安装包下载地址</a>(复制链接后手动在新标签页打开)</p>
-<h1>作图及文献管理软件</h1>
-<h2 id="Chemoffice">Chemoffice</h2>
-<p>可以方便地绘制化学结构式的软件</p>
-<p>统一使用 <strong>Chemoffice 2018 版本</strong></p>
-<p>安装步骤参考<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/vcxuny13C9n4yorc-YLMQQ">微信文章</a></p>
-<p><a target="_blank" rel="noopener" href="https://fileshare.flmore.top/d/PACKAGES/07.DrawAnalyse/ChemOffice%202018.rar">安装包下载地址</a>(复制链接后手动在新标签页打开)</p>
-<h2 id="Draw-io"><a target="_blank" rel="noopener" href="http://Draw.io">Draw.io</a></h2>
-<p>一款开源免费的流程图绘制软件</p>
-<p>统一使用<strong>14.5.1或更高版本</strong></p>
-<p><a target="_blank" rel="noopener" href="https://www.diagrams.net/">安装包下载地址</a></p>
-<h2 id="Endnote">Endnote</h2>
-<p>EndNote 是我们管理参考文献必备的利器，在引用参考文献的时候会遇到改变位置需要反复修改，该软件不用反复修改，会根据你所引用文献的位置自动变换。</p>
-<p>统一使用<strong>Endnote X9版本</strong></p>
-<p>软件安装步骤参考<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/news/356618">这篇文章</a></p>
-<p><a target="_blank" rel="noopener" href="https://fileshare.flmore.top/d/PACKAGES/08.RefManage/EndNote_X9.zip">安装包下载地址</a>(复制链接后手动在新标签页打开)</p>
+        <hr />
+<h2 id="一、研究目标">一、研究目标</h2>
+<p>给定：</p>
+<ul>
+<li>催化剂表面及吸附中间体的 <strong>Gibbs 自由能（eV）</strong></li>
+<li>气相/溶液分子的 <strong>Gibbs 自由能（eV）</strong></li>
+</ul>
+<p>目标：</p>
+<ol>
+<li>构建 H₂O₂ 分解反应的<strong>逐步反应路径</strong></li>
+<li>计算每一步反应的 <strong>反应自由能 ΔG</strong></li>
+<li>得到台阶图中各节点的 <strong>相对自由能</strong></li>
+</ol>
+<hr />
+<h2 id="二、采用的反应路径（酸性，CHE-框架）">二、采用的反应路径（酸性，CHE 框架）</h2>
+<p>以单活性位点（*）为例，采用如下反应路径：</p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>反应类型</th>
+<th>反应方程</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S0 → S1</td>
+<td>吸附</td>
+<td>* + H₂O₂ → *H₂O₂</td>
+</tr>
+<tr>
+<td>S1 → S2</td>
+<td>第 1 步 PCET</td>
+<td>*H₂O₂ + (H⁺ + e⁻) → *OH + H₂O</td>
+</tr>
+<tr>
+<td>S2 → S3</td>
+<td>第 2 步 PCET</td>
+<td>*OH + (H⁺ + e⁻) → *H₂O</td>
+</tr>
+<tr>
+<td>S3 → S4</td>
+<td>脱附</td>
+<td>*H₂O → * + H₂O</td>
+</tr>
+</tbody>
+</table>
+<p>整体反应：</p>
+<p>H₂O₂ + 2(H⁺ + e⁻) → 2H₂O</p>
+<hr />
+<h2 id="三、CHE（计算氢电极）处理方法">三、CHE（计算氢电极）处理方法</h2>
+<p>在酸性条件（pH = 0）下，使用 CHE 替换：</p>
+<p>(H⁺ + e⁻) ⇌ ½ H₂ − eU</p>
+<p>其中：</p>
+<ul>
+<li>U 为外加电极电位（V vs RHE）</li>
+<li>在 U = 0 V 时：</li>
+</ul>
+<p>μ(H⁺ + e⁻) = ½ G(H₂)</p>
+<hr />
+<h2 id="四、定义台阶图“节点态”（States）">四、定义台阶图“节点态”（States）</h2>
+<p>每个台阶图节点对应一个<strong>热力学态</strong>，其 Gibbs 自由能由表面态和必要的溶液分子组成：</p>
+<table>
+<thead>
+<tr>
+<th>节点</th>
+<th>定义</th>
+<th>自由能表达式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S0</td>
+<td>* + H₂O₂</td>
+<td>G(*) + G(H₂O₂)</td>
+</tr>
+<tr>
+<td>S1</td>
+<td>*H₂O₂</td>
+<td>G(*H₂O₂)</td>
+</tr>
+<tr>
+<td>S2</td>
+<td>*OH + H₂O</td>
+<td>G(*OH) + G(H₂O)</td>
+</tr>
+<tr>
+<td>S3</td>
+<td>*H₂O</td>
+<td>G(*H₂O)</td>
+</tr>
+<tr>
+<td>S4</td>
+<td>* + H₂O</td>
+<td>G(*) + G(H₂O)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>注意</strong>：是否在某一节点显式包含 H₂O，必须与反应方程严格一致，否则会导致整体能量偏移。</p>
+<hr />
+<h2 id="五、反应自由能（台阶高度）计算方法">五、反应自由能（台阶高度）计算方法</h2>
+<p>每一步反应自由能定义为：</p>
+<p>ΔGᵢ = G(Sᵢ) − G(Sᵢ₋₁)</p>
+<h3 id="1-吸附步骤">1. 吸附步骤</h3>
+<ul>
+<li>
+<ul>
+<li>H₂O₂ → *H₂O₂</li>
+</ul>
+</li>
+</ul>
+<p>ΔG₁ = G(<em>H₂O₂) − [G(</em>) + G(H₂O₂)]</p>
+<hr />
+<h3 id="2-含-1-个-H⁺-e⁻-的-PCET-步骤">2. 含 1 个 (H⁺ + e⁻) 的 PCET 步骤</h3>
+<p>通用形式：</p>
+<p>A* + (H⁺ + e⁻) → B*</p>
+<p>使用 CHE（pH = 0）：</p>
+<p>ΔG = G(B*) − [G(A*) + ½ G(H₂)] + eU</p>
+<p>在 U = 0 V 时：</p>
+<p>ΔG = G(B*) − [G(A*) + ½ G(H₂)]</p>
+<hr />
+<h3 id="3-脱附步骤">3. 脱附步骤</h3>
+<p>*H₂O → * + H₂O</p>
+<p>ΔG = [G(*) + G(H₂O)] − G(*H₂O)</p>
+<hr />
+<h2 id="六、构建台阶图（相对自由能）">六、构建台阶图（相对自由能）</h2>
+<p>通常将起始态 S0 设为零点：</p>
+<p>G_rel(S0) = 0</p>
+<p>其余节点通过累加反应自由能获得：</p>
+<p>G_rel(Sᵢ) = Σ ΔGₖ (k = 1 → i)</p>
+<p>绘图时横轴为反应坐标，纵轴为相对 Gibbs 自由能（eV）。</p>
+<hr />
+<h2 id="七、电位与-pH-的影响（扩展）">七、电位与 pH 的影响（扩展）</h2>
+<ul>
+<li>
+<p>每消耗 <strong>1 个电子</strong>，自由能中增加一项：</p>
+</li>
+<li>
+<p>eU</p>
+</li>
+<li>
+<p>在 pH ≠ 0 时，需额外加入：</p>
+</li>
+</ul>
+<p>ΔG_pH = k_BT ln(10) × pH ≈ 0.059 × pH (eV)</p>
+<hr />
+<h2 id="八、常见错误与检查要点">八、常见错误与检查要点</h2>
+<ol>
+<li><strong>水分子是否计入节点态不一致</strong>（最常见错误）</li>
+<li>忘记在 PCET 步骤中加入 ½H₂ 或 −eU</li>
+<li>混用 Helmholtz 自由能与 Gibbs 自由能</li>
+<li>台阶图不同催化剂未使用统一参考态</li>
+</ol>
+<hr />
+<h2 id="九、核心总结">九、核心总结</h2>
+<p><strong>DFT 给出能量基准，CHE 负责引入电化学条件，台阶图的每一个高度本质上都是“相邻两个热力学态的 Gibbs 自由能差”。</strong></p>
+<hr />
+<p>（本流程可直接迁移至 ORR、PRR、HER、H₂O₂ 选择性反应等表面电化学体系）</p>
 
     </div>
 
@@ -263,7 +389,9 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Misc/" rel="tag"># Misc</a>
+              <a href="/tags/vasp/" rel="tag"># vasp</a>
+              <a href="/tags/%E5%82%AC%E5%8C%96/" rel="tag"># 催化</a>
+              <a href="/tags/%E8%87%AA%E7%94%B1%E8%83%BD%E5%8F%B0%E9%98%B6%E5%9B%BE/" rel="tag"># 自由能台阶图</a>
           </div>
 
         
@@ -272,13 +400,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/418e9236.html" rel="prev" title="优化NFS传输速度">
-      <i class="fa fa-chevron-left"></i> 优化NFS传输速度
+    <a href="/2025/8661b455.html" rel="prev" title="gaussian计算自由基亲电指数">
+      <i class="fa fa-chevron-left"></i> gaussian计算自由基亲电指数
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/4b3c5c7e.html" rel="next" title="系统级别优化服务器计算速度">
-      系统级别优化服务器计算速度 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -337,7 +462,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">Office 三件套</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">数据处理及可视化软件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Originlab"><span class="nav-number">2.1.</span> <span class="nav-text">Originlab</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jade"><span class="nav-number">2.2.</span> <span class="nav-text">Jade</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HSC"><span class="nav-number">2.3.</span> <span class="nav-text">HSC</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">作图及文献管理软件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Chemoffice"><span class="nav-number">3.1.</span> <span class="nav-text">Chemoffice</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Draw-io"><span class="nav-number">3.2.</span> <span class="nav-text">Draw.io</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Endnote"><span class="nav-number">3.3.</span> <span class="nav-text">Endnote</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E7%A0%94%E7%A9%B6%E7%9B%AE%E6%A0%87"><span class="nav-number">1.</span> <span class="nav-text">一、研究目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E9%87%87%E7%94%A8%E7%9A%84%E5%8F%8D%E5%BA%94%E8%B7%AF%E5%BE%84%EF%BC%88%E9%85%B8%E6%80%A7%EF%BC%8CCHE-%E6%A1%86%E6%9E%B6%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">二、采用的反应路径（酸性，CHE 框架）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81CHE%EF%BC%88%E8%AE%A1%E7%AE%97%E6%B0%A2%E7%94%B5%E6%9E%81%EF%BC%89%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">三、CHE（计算氢电极）处理方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%AE%9A%E4%B9%89%E5%8F%B0%E9%98%B6%E5%9B%BE%E2%80%9C%E8%8A%82%E7%82%B9%E6%80%81%E2%80%9D%EF%BC%88States%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">四、定义台阶图“节点态”（States）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E5%8F%8D%E5%BA%94%E8%87%AA%E7%94%B1%E8%83%BD%EF%BC%88%E5%8F%B0%E9%98%B6%E9%AB%98%E5%BA%A6%EF%BC%89%E8%AE%A1%E7%AE%97%E6%96%B9%E6%B3%95"><span class="nav-number">5.</span> <span class="nav-text">五、反应自由能（台阶高度）计算方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%90%B8%E9%99%84%E6%AD%A5%E9%AA%A4"><span class="nav-number">5.1.</span> <span class="nav-text">1. 吸附步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%90%AB-1-%E4%B8%AA-H%E2%81%BA-e%E2%81%BB-%E7%9A%84-PCET-%E6%AD%A5%E9%AA%A4"><span class="nav-number">5.2.</span> <span class="nav-text">2. 含 1 个 (H⁺ + e⁻) 的 PCET 步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%84%B1%E9%99%84%E6%AD%A5%E9%AA%A4"><span class="nav-number">5.3.</span> <span class="nav-text">3. 脱附步骤</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E6%9E%84%E5%BB%BA%E5%8F%B0%E9%98%B6%E5%9B%BE%EF%BC%88%E7%9B%B8%E5%AF%B9%E8%87%AA%E7%94%B1%E8%83%BD%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">六、构建台阶图（相对自由能）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E7%94%B5%E4%BD%8D%E4%B8%8E-pH-%E7%9A%84%E5%BD%B1%E5%93%8D%EF%BC%88%E6%89%A9%E5%B1%95%EF%BC%89"><span class="nav-number">7.</span> <span class="nav-text">七、电位与 pH 的影响（扩展）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF%E4%B8%8E%E6%A3%80%E6%9F%A5%E8%A6%81%E7%82%B9"><span class="nav-number">8.</span> <span class="nav-text">八、常见错误与检查要点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B9%9D%E3%80%81%E6%A0%B8%E5%BF%83%E6%80%BB%E7%BB%93"><span class="nav-number">9.</span> <span class="nav-text">九、核心总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

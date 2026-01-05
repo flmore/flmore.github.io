@@ -229,7 +229,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="过渡态计算-CINEB方法"><a href="#过渡态计算-CINEB方法" class="headerlink" title="过渡态计算  CINEB方法"></a>过渡态计算  CINEB方法</h1><p>复制始末态的CONTCAR为POSCAR1和POSCAR2</p>
+        <h1>过渡态计算  CINEB方法</h1>
+<p>复制始末态的CONTCAR为POSCAR1和POSCAR2</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> KPOINTS POTCAR INCAR job.pbs</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>查看两个POSCAR中的元素是否为一一对应关系  且选择了相同的固定方法</p>
@@ -239,31 +240,59 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nebmake.pl POSCAR1 POSCAR2 X </span><br><span class="line"><span class="comment"># X 为插点个数，一般取距离/0.8，且必须被核心数整除</span></span><br></pre></td></tr></table></figure>
 <p>检查新建的目录，查看POSCAR的固定情况</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> ??; <span class="keyword">do</span> (<span class="built_in">cd</span> <span class="variable">$x</span>; <span class="built_in">ln</span> -sv ../POTCAR); <span class="keyword">done</span> <span class="comment"># 将POTCAR复制进入各目录</span></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> ??; <span class="keyword">do</span> (<span class="built_in">cd</span> <span class="variable">$x</span>; vasp-pos-to-cif5 POSCAR); <span class="keyword">done</span> &gt; t.cif</span><br></pre></td></tr></table></figure>
-<p>使用 <a target="_blank" rel="noopener" href="https://jmol.sourceforge.net/">Jmol</a> 观察<code>t.cif</code> 检查插点是否合理<br>修改INCAR</p>
+<p>使用 <a target="_blank" rel="noopener" href="https://jmol.sourceforge.net/">Jmol</a> 观察<code>t.cif</code> 检查插点是否合理<br />
+修改INCAR</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">IBRION = 1 		<span class="comment"># 不可等于2</span></span><br><span class="line">POTIM = 0.2		<span class="comment"># =0.1</span></span><br><span class="line">IMAGES = X 		<span class="comment"># 插点数  </span></span><br><span class="line">SPRING = -5   </span><br><span class="line">LCLIMB = .T.	<span class="comment"># 需要爬坡</span></span><br></pre></td></tr></table></figure>
 <p>修改 <code>job.pbs</code> 中的资源数</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nodes = 2 or  ppn  = 48 </span><br></pre></td></tr></table></figure>
 <p>复制初末态结构优化的OUTCAR进入始末目录下</p>
 <p>提交计算任务</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nebef.pl <span class="comment"># 查看能量</span></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> ??; <span class="keyword">do</span> (<span class="built_in">cd</span> <span class="variable">$x</span>; vasp-pos-to-cif5 CONTCAR) ; <span class="keyword">done</span> &gt; t.cif</span><br><span class="line"><span class="comment"># 检查计算结果 输出t.cif文件</span></span><br></pre></td></tr></table></figure>
-<h1 id="虚频计算"><a href="#虚频计算" class="headerlink" title="虚频计算"></a>虚频计算</h1><p><code>mkdir freq</code>新建freq目录<br>将过渡态计算中能量最高点目录下的CONTCAR拷贝进新建的目录<br>固定除了气体分子以外的其他原子 命名为POSCAR<br>复制KPOINTS   POTCAR  INCAR  job.pbs<br>对INCAR进行设置</p>
+<h1>虚频计算</h1>
+<p><code>mkdir freq</code>新建freq目录<br />
+将过渡态计算中能量最高点目录下的CONTCAR拷贝进新建的目录<br />
+固定除了气体分子以外的其他原子 命名为POSCAR<br />
+复制KPOINTS   POTCAR  INCAR  job.pbs<br />
+对INCAR进行设置</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">IBRION=5 </span><br><span class="line">POTIM=0.015 </span><br><span class="line"><span class="comment">#NPAR=4 关掉过渡态计算</span></span><br></pre></td></tr></table></figure>
 <p>提交任务</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grep cm OUTCAR <span class="comment"># 查看虚频计算结果</span></span><br><span class="line">vasp-freq-to-xyz5 OUTCAR &gt; f.cif</span><br></pre></td></tr></table></figure>
 <p>Jmol打开    开启震动  向量</p>
-<h1 id="ORR反应"><a href="#ORR反应" class="headerlink" title="ORR反应"></a>ORR反应</h1><p>H2优化​</p>
+<h1>ORR反应</h1>
+<p>H2优化​</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ISPIN = 0</span><br></pre></td></tr></table></figure>
-<p>优化<br>​直接新建slab o2-ads ooh-ads o-ads oh-ads<br>​1.23 eV 能量矫正(存在电子转移的步骤)<br>​自由能矫正</p>
+<p>优化<br />
+​直接新建slab o2-ads ooh-ads o-ads oh-ads<br />
+​1.23 eV 能量矫正(存在电子转移的步骤)<br />
+​自由能矫正</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zpe  <span class="built_in">cp</span> CONTCAR  ./zpe  <span class="comment"># 弛豫气体分子固定表面</span></span><br></pre></td></tr></table></figure>
 <p>INCAR设置</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">IBRION  = 5</span><br><span class="line">POTIM   = 0.015</span><br><span class="line">NFREE = 2</span><br><span class="line"><span class="comment">#NPAR = 2</span></span><br></pre></td></tr></table></figure>
-<p>输出矫正值<br>    气体分子(O2分子需要外推)<br>        vaspkit   5   502   298.15  大气压  1<br>    h2o(l)  #液态<br>        vaspkit   5   502   298.15  0.035   1  #矫正到饱和蒸汽压下的气态水 即为液态时的自由能<br>    step<br>        vaspkit   5   501   298.15</p>
-<h1 id="电荷差分"><a href="#电荷差分" class="headerlink" title="电荷差分"></a>电荷差分</h1><p>total自洽        </p>
+<p>输出矫正值<br />
+气体分子(O2分子需要外推)<br />
+vaspkit   5   502   298.15  大气压  1<br />
+h2o(l)  #液态<br />
+vaspkit   5   502   298.15  0.035   1  #矫正到饱和蒸汽压下的气态水 即为液态时的自由能<br />
+step<br />
+vaspkit   5   501   298.15</p>
+<h1>电荷差分</h1>
+<p>total自洽</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">EDIFF   = 1E-6</span><br><span class="line">NSW     = 0</span><br><span class="line">EDIFFG  = -0.05</span><br><span class="line">IBRION  = -1</span><br><span class="line">POTIM   = 0.1</span><br><span class="line">LWAVE = .F.</span><br><span class="line">LAECHG = .T.</span><br><span class="line">LCHARG = .T.</span><br></pre></td></tr></table></figure>
-<p>CONTCAR拆分成slab gas分别自洽<br>Chgdiff Visualization<br>获得CHGCAR-all CHGCAR-slab.vasp CHGCAR-gas.vasp 置入同一chgdiff文件夹<br>打开VESTA, 拖入CHGCAR-all<br>Edit—-&gt;Edit Data—-&gt;Volumetric Data<br>Import两个.vasp文件—-&gt;Operation—-&gt;Subtract from current data—-&gt;OK<br>Style下的Properties<br>调整晶胞边界线<br>调整电荷密度等高线<br>电荷密度色彩<br>File—-&gt;Export Raster Image—-&gt;Scale x  输入3—-&gt;勾选背景透明—-&gt;OK</p>
-<h1 id="Bader电荷"><a href="#Bader电荷" class="headerlink" title="Bader电荷"></a>Bader电荷</h1><p>​    INCAR参数设置        </p>
+<p>CONTCAR拆分成slab gas分别自洽<br />
+Chgdiff Visualization<br />
+获得CHGCAR-all CHGCAR-slab.vasp CHGCAR-gas.vasp 置入同一chgdiff文件夹<br />
+打开VESTA, 拖入CHGCAR-all<br />
+Edit—&gt;Edit Data—&gt;Volumetric Data<br />
+Import两个.vasp文件—&gt;Operation—&gt;Subtract from current data—&gt;OK<br />
+Style下的Properties<br />
+调整晶胞边界线<br />
+调整电荷密度等高线<br />
+电荷密度色彩<br />
+File—&gt;Export Raster Image—&gt;Scale x  输入3—&gt;勾选背景透明—&gt;OK</p>
+<h1>Bader电荷</h1>
+<p>​	INCAR参数设置</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">EDIFF   = 1E-6</span><br><span class="line">NSW     = 0</span><br><span class="line">EDIFFG  = -0.05</span><br><span class="line">IBRION  = -1</span><br><span class="line">POTIM   = 0.1</span><br><span class="line">LWAVE = .F.</span><br><span class="line">LAECHG = .T.</span><br><span class="line">LCHARG = .T.</span><br></pre></td></tr></table></figure>
-<p>​    </p>
+<p>​</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chgsum.pl AECCAR0 AECCAR2</span><br></pre></td></tr></table></figure>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bader CHGCAR -ref CHGCAR_sum</span><br></pre></td></tr></table></figure>
 <p>读取ACF.dat文件</p>
@@ -353,7 +382,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%87%E6%B8%A1%E6%80%81%E8%AE%A1%E7%AE%97-CINEB%E6%96%B9%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">过渡态计算  CINEB方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%99%9A%E9%A2%91%E8%AE%A1%E7%AE%97"><span class="nav-number">2.</span> <span class="nav-text">虚频计算</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ORR%E5%8F%8D%E5%BA%94"><span class="nav-number">3.</span> <span class="nav-text">ORR反应</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%B5%E8%8D%B7%E5%B7%AE%E5%88%86"><span class="nav-number">4.</span> <span class="nav-text">电荷差分</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Bader%E7%94%B5%E8%8D%B7"><span class="nav-number">5.</span> <span class="nav-text">Bader电荷</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">过渡态计算  CINEB方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">虚频计算</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">ORR反应</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">4.</span> <span class="nav-text">电荷差分</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">5.</span> <span class="nav-text">Bader电荷</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -369,7 +398,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -382,7 +411,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">31</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -409,7 +438,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

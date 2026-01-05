@@ -221,18 +221,20 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="数据传输速度测试"><a href="#数据传输速度测试" class="headerlink" title="数据传输速度测试"></a>数据传输速度测试</h1><p><strong>本地磁盘速度测试</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">time <span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero of=./SPEED bs=8k count=102400 <span class="comment"># 测试写速度</span></span><br><span class="line"></span><br><span class="line">102400+0 records <span class="keyword">in</span></span><br><span class="line">102400+0 records out</span><br><span class="line">838860800 bytes (839 MB) copied, 0.585492 s, 1.4 GB/s</span><br><span class="line"></span><br><span class="line">real    0m0.591s</span><br><span class="line">user    0m0.068s</span><br><span class="line">sys     0m0.521s</span><br></pre></td></tr></table></figure>
+        <h1>数据传输速度测试</h1>
+<p><strong>本地磁盘速度测试</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">time</span> <span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero of=./SPEED bs=8k count=102400 <span class="comment"># 测试写速度</span></span><br><span class="line"></span><br><span class="line">102400+0 records <span class="keyword">in</span></span><br><span class="line">102400+0 records out</span><br><span class="line">838860800 bytes (839 MB) copied, 0.585492 s, 1.4 GB/s</span><br><span class="line"></span><br><span class="line">real    0m0.591s</span><br><span class="line">user    0m0.068s</span><br><span class="line">sys     0m0.521s</span><br></pre></td></tr></table></figure>
 <p>写入 1G 数据量，其速度为 1.4GB/s。</p>
 <p><strong>NFS挂载磁盘速度测试</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">time <span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero of=./SPEED bs=8k count=102400</span><br><span class="line"></span><br><span class="line">102400+0 records <span class="keyword">in</span></span><br><span class="line">102400+0 records out</span><br><span class="line">838860800 bytes (839 MB) copied, 12.4746 s, 67.2 MB/s</span><br><span class="line"></span><br><span class="line">real    0m12.480s</span><br><span class="line">user    0m0.014s</span><br><span class="line">sys     0m0.622s</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">time</span> <span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero of=./SPEED bs=8k count=102400</span><br><span class="line"></span><br><span class="line">102400+0 records <span class="keyword">in</span></span><br><span class="line">102400+0 records out</span><br><span class="line">838860800 bytes (839 MB) copied, 12.4746 s, 67.2 MB/s</span><br><span class="line"></span><br><span class="line">real    0m12.480s</span><br><span class="line">user    0m0.014s</span><br><span class="line">sys     0m0.622s</span><br></pre></td></tr></table></figure>
 <p>NFS挂载磁盘的速度比本地磁盘慢了10倍有余。</p>
-<h1 id="NFS数据传输优化"><a href="#NFS数据传输优化" class="headerlink" title="NFS数据传输优化"></a>NFS数据传输优化</h1><p>更改NFS服务器写入规则，将同步写入内存和磁盘(sync)，改为先写入内存，后写入磁盘(async)。</p>
+<h1>NFS数据传输优化</h1>
+<p>更改NFS服务器写入规则，将同步写入内存和磁盘(sync)，改为先写入内存，后写入磁盘(async)。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$TARGET_PATH</span>   192.168.1.0/24(rw,async,no_root_squash)</span><br></pre></td></tr></table></figure>
 <p>重启NFS服务，客户端不需要做配置</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">exportfs -rv</span><br><span class="line"><span class="comment"># 先启动rpcbind,再启动nfs</span></span><br><span class="line">systemctl restart rpcbind</span><br><span class="line">systemctl restart nfs</span><br></pre></td></tr></table></figure>
 <p><strong>再次测试NFS挂载磁盘速度</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">time <span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero of=./SPEED bs=8k count=102400</span><br><span class="line"></span><br><span class="line">102400+0 records <span class="keyword">in</span></span><br><span class="line">102400+0 records out</span><br><span class="line">838860800 bytes (839 MB) copied, 7.58768 s, 111 MB/s</span><br><span class="line"></span><br><span class="line">real    0m7.590s</span><br><span class="line">user    0m0.011s</span><br><span class="line">sys     0m0.602s</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">time</span> <span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero of=./SPEED bs=8k count=102400</span><br><span class="line"></span><br><span class="line">102400+0 records <span class="keyword">in</span></span><br><span class="line">102400+0 records out</span><br><span class="line">838860800 bytes (839 MB) copied, 7.58768 s, 111 MB/s</span><br><span class="line"></span><br><span class="line">real    0m7.590s</span><br><span class="line">user    0m0.011s</span><br><span class="line">sys     0m0.602s</span><br></pre></td></tr></table></figure>
 <p>可以看到，更改数据传输方式后，网络磁盘的数据传输速度得到了提升，但这种方式对VASP运行速度的影响有待进一步测试。</p>
 
     </div>
@@ -318,7 +320,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E9%80%9F%E5%BA%A6%E6%B5%8B%E8%AF%95"><span class="nav-number">1.</span> <span class="nav-text">数据传输速度测试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NFS%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E4%BC%98%E5%8C%96"><span class="nav-number">2.</span> <span class="nav-text">NFS数据传输优化</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">数据传输速度测试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">NFS数据传输优化</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -334,7 +336,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -347,7 +349,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">31</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -374,7 +376,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
